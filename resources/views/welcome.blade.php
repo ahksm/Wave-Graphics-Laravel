@@ -123,9 +123,9 @@
             <div class="input-form">
                 <label>Size in Pixel</label>
                 <div>
-                    <input type="number" id="canvas-width" min="10" value="150" step="10" />
+                    <input type="number" id="canvas-width" min="10" value="300" step="10" />
                     <label for="canvas-width" style="margin-top: 5px">Width</label>
-                    <input type="number" id="canvas-height" min="10" value="150" step="10" />
+                    <input type="number" id="canvas-height" min="10" value="300" step="10" />
                     <label for="canvas-height" style="margin-top: 5px; margin-bottom: 30px">Height</label>
                 </div>
             </div>
