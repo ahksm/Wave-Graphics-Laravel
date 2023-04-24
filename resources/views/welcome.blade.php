@@ -108,7 +108,7 @@
 
 <body>
     <div class="sidebar">
-        <img style="width: 80px; height: 80px; position: fixed; top: 10px; left: 70px;"
+        <img style="width: 80px; height: 80px; margin: 20px 30px"
             src="/storage/photo_2023-04-17_13-50-31-removebg-preview.png" alt="alt">
         <form action="/logout" method="POST">
             @csrf
@@ -135,9 +135,9 @@
             <div class="input-form">
                 <label>Size in Pixel</label>
                 <div>
-                    <input type="number" id="canvas-width" min="10" value="150" step="10" />
+                    <input type="number" id="canvas-width" min="10" value="300" step="10" />
                     <label for="canvas-width" style="margin-top: 5px">Width</label>
-                    <input type="number" id="canvas-height" min="10" value="150" step="10" />
+                    <input type="number" id="canvas-height" min="10" value="300" step="10" />
                     <label for="canvas-height" style="margin-top: 5px; margin-bottom: 30px">Height</label>
                 </div>
             </div>
@@ -173,14 +173,16 @@
                     </div>
                     <button class="download" data-id="1">Download</button>
                 </div>
-                <canvas class="myCanvas" id="myCanvas-1"></canvas>
-                <canvas class="newCanvas" id="newCanvas-1"></canvas>
+                <div id="canvas-container">
+                    <div class="myCanvas" id="myCanvas-1"></div>
+                    <div class="newCanvas" id="newCanvas-1"></div>
+                </div>
             </div>
         </div>
         <button type="button" id="add-canvas">+ ADD WAVELAYER</button>
         <div class="input-form">
             <label for="line-width">Line Thickness:</label>
-            <input type="number" id="line-width" value="1" min="1" step="1" />
+            <input type="number" id="line-width" value="2" min="1" step="1" />
         </div>
         <div class="input-form">
             <label for="line-color">Line Color:</label>

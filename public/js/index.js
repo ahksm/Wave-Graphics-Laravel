@@ -1,4 +1,4 @@
-import potrace from "potrace";
+import C2S from "canvas2svg";
 
 window.onload = function () {
     class WaveDrawer {
@@ -14,31 +14,29 @@ window.onload = function () {
             lineWidthInputId,
             canvasNameInputId
         ) {
+            this.canvasId = canvasId;
             this.canvas = document.getElementById(canvasId);
-            this.ctx = this.canvas.getContext("2d");
-
-            let id = canvasId.split("-").pop();
-
-            this.newCanvas = document.getElementById(`newCanvas-${id}`);
-
+            this.newCanvas = document.getElementById(
+                `newCanvas-${+this.canvasId.split("-")[1]}`
+            );
             this.canvasWidthInput = document.getElementById(canvasWidthInputId);
             this.canvasHeightInput =
                 document.getElementById(canvasHeightInputId);
+            this.ctx = new C2S(
+                this.canvasWidthInput.value,
+                this.canvasHeightInput.value
+            );
             this.canvas.width = this.canvasWidthInput.value;
             this.canvas.height = this.canvasHeightInput.value;
-
             this.newCanvas.width = this.canvasWidthInput.value;
             this.newCanvas.height = this.canvasHeightInput.value;
-
-            this.width = 300;
-            this.height = 300;
-
+            this.width = this.canvasWidthInput.value * 2;
+            this.height = this.canvasWidthInput.value * 2;
             this.amplitude = this.canvas.height / 20;
             this.frequency = 0.0001;
             this.speed = 0.0009;
             this.numWaves = (this.canvas.height / this.amplitude) * 2;
             this.waveInterval = (this.amplitude * 34) / this.numWaves;
-
             this.lineWidthInputId = lineWidthInputId;
             this.lineColorInputId = lineColorInputId;
             this.bgColorInputId = bgColorInputId;
@@ -46,10 +44,7 @@ window.onload = function () {
             this.bgColor = "#FFFFFF";
             this.ctx.lineWidth = 2;
             this.ctx.strokeStyle = this.lineColor;
-            this.newCanvas.style.backgroundColor = this.bgColor;
-
             this.canvasNameInputId = canvasNameInputId;
-
             this.waveLengthInputId = waveLengthInputId;
             this.waveHeightInputId = waveHeightInputId;
             this.waveDistortionInputId = waveDistortionInputId;
@@ -75,10 +70,8 @@ window.onload = function () {
         draw() {
             this.canvas.width = this.canvasWidthInput.value;
             this.canvas.height = this.canvasHeightInput.value;
-
             this.newCanvas.width = this.canvasWidthInput.value;
             this.newCanvas.height = this.canvasHeightInput.value;
-
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.ctx.save();
             this.ctx.scale(
@@ -86,7 +79,6 @@ window.onload = function () {
                 this.canvas.height / this.height
             );
             this.ctx.translate(this.width / 2, this.height / 2);
-
             let prevLine;
             const waveLength = parseFloat(
                 document.getElementById(this.waveLengthInputId).value
@@ -97,8 +89,6 @@ window.onload = function () {
             const waveDistortion = parseFloat(
                 document.getElementById(this.waveDistortionInputId).value
             );
-            const bgColor = document.getElementById(this.bgColorInputId).value;
-            this.newCanvas.style.backgroundColor = bgColor;
             const lineColor = document.getElementById(
                 this.lineColorInputId
             ).value;
@@ -129,8 +119,12 @@ window.onload = function () {
                     prevLine
                 );
             }
-
             this.ctx.restore();
+
+            let svg = this.ctx.getSerializedSvg(true);
+            this.canvas.innerHTML = svg;
+
+            mergeSVGs(+this.canvasId.split("-")[1]);
         }
     }
 
@@ -147,47 +141,21 @@ window.onload = function () {
         "canvas-name"
     );
 
-    const canvasWidthInput = document.getElementById("canvas-width");
-    canvasWidthInput.addEventListener("input", () => {
-        waveDrawer.draw();
-    });
+    const inputs = [
+        "canvas-width",
+        "canvas-height",
+        "wave-length-1",
+        "wave-height-1",
+        "wave-distortion-1",
+        "bg-color",
+        "line-color",
+        "line-width",
+    ];
 
-    const canvasHeightInput = document.getElementById("canvas-height");
-    canvasHeightInput.addEventListener("input", (event) => {
-        document.querySelectorAll(".newCanvas").forEach((element) => {
-            element.style.height = event.target.value + "px";
+    inputs.forEach((input) => {
+        document.getElementById(input).addEventListener("input", () => {
+            waveDrawer.draw();
         });
-        waveDrawer.draw();
-    });
-
-    const waveLengthInput = document.getElementById("wave-length-1");
-    waveLengthInput.addEventListener("input", () => {
-        waveDrawer.draw();
-    });
-
-    const waveHeightInput = document.getElementById("wave-height-1");
-    waveHeightInput.addEventListener("input", () => {
-        waveDrawer.draw();
-    });
-
-    const waveDistortionInput = document.getElementById("wave-distortion-1");
-    waveDistortionInput.addEventListener("input", () => {
-        waveDrawer.draw();
-    });
-
-    const bgColorInput = document.getElementById("bg-color");
-    bgColorInput.addEventListener("input", () => {
-        waveDrawer.draw();
-    });
-
-    const lineColorInput = document.getElementById("line-color");
-    lineColorInput.addEventListener("input", () => {
-        waveDrawer.draw();
-    });
-
-    const lineWidthInput = document.getElementById("line-width");
-    lineWidthInput.addEventListener("input", () => {
-        waveDrawer.draw();
     });
 
     waveDrawer.draw();
@@ -199,45 +167,45 @@ window.onload = function () {
         if (canvasCount == 6) {
             document.getElementById("add-canvas").style.display = "none";
         }
-        if (canvasCount > maxCanvasCount) {
-            return;
-        }
+        if (canvasCount > maxCanvasCount) return;
+
         const canvasName = `myCanvas-${canvasCount}`;
         const canvasContainer = document.createElement("div");
         canvasContainer.classList.add("layer");
         canvasContainer.setAttribute("id", `layer-${canvasCount}`);
         canvasContainer.innerHTML = `
-        <div class="inputs">
-        <h2>Wavelayer${canvasCount}</h2>
-        <div class="input-form">
-            <label for="wave-length-${canvasCount}">Wave Length:</label>
-            <input type="number" id="wave-length-${canvasCount}" value="${(
+          <div class="inputs">
+            <h2>Wavelayer${canvasCount}</h2>
+            <div class="input-form">
+              <label for="wave-length-${canvasCount}">Wave Length:</label>
+              <input type="number" id="wave-length-${canvasCount}" value="${(
             (Math.random() - 0.5) * 0.02 +
             0.01
         ).toFixed(3)}" step="0.001" />
-        </div>
-        <div class="input-form">
-            <label for="wave-height-${canvasCount}">Wave Height:</label>
-            <input type="number" id="wave-height-${canvasCount}" value="${Math.floor(
+            </div>
+            <div class="input-form">
+              <label for="wave-height-${canvasCount}">Wave Height:</label>
+              <input type="number" id="wave-height-${canvasCount}" value="${Math.floor(
             (Math.random() - 0.5) * 20 + 25
         )}" step="1" />
-        </div>
-        <div class="input-form">
-            <label for="wave-distortion-${canvasCount}">Wave Distortion:</label>
-            <input type="number" id="wave-distortion-${canvasCount}" value="${Math.floor(
+            </div>
+            <div class="input-form">
+              <label for="wave-distortion-${canvasCount}">Wave Distortion:</label>
+              <input type="number" id="wave-distortion-${canvasCount}" value="${Math.floor(
             (Math.random() - 0.5) * 40 + 50
         )}" step="1" />
-        </div>
-        <button class="download" data-id="${canvasCount}">Download</button>
-    </div>
-    <div id="canvas-container">
-        <canvas class="myCanvas" id="${canvasName}"></canvas>
-        <canvas class="newCanvas" id="newCanvas-${canvasCount}"></canvas>
-    </div>
-                `;
+            </div>
+            <button class="download" data-id="${canvasCount}">Download</button>
+          </div>
+          <div id="canvas-container">
+            <div class="myCanvas" id="${canvasName}"></div>
+            <div class="newCanvas" id="newCanvas-${canvasCount}"></div>
+          </div>
+        `;
         const mainContainer = document.getElementById("main-container");
+        const addCanvasButton = document.getElementById("add-canvas");
         mainContainer.appendChild(canvasContainer);
-
+        addCanvasButton.parentNode.insertBefore(mainContainer, addCanvasButton);
         const waveDrawer = new WaveDrawer(
             `myCanvas-${canvasCount}`,
             `canvas-width`,
@@ -250,59 +218,27 @@ window.onload = function () {
             `line-width`,
             `canvas-name`
         );
-
         canvasCount++;
-
         waveDrawer.draw();
 
         for (let i = 1; i < canvasCount; i++) {
-            const canvasWidthInput = document.getElementById(`canvas-width`);
-            canvasWidthInput.addEventListener("input", () => {
-                waveDrawer.draw();
-            });
+            const inputs = [
+                "canvas-width",
+                "canvas-height",
+                `wave-length-${i}`,
+                `wave-height-${i}`,
+                `wave-distortion-${i}`,
+                "bg-color",
+                "line-color",
+                "line-width",
+            ];
 
-            const canvasHeightInput = document.getElementById(`canvas-height`);
-            canvasHeightInput.addEventListener("input", (event) => {
-                document.querySelectorAll(".newCanvas").forEach((element) => {
-                    element.style.height = event.target.value + "px";
+            inputs.forEach((input) => {
+                document.getElementById(input).addEventListener("input", () => {
+                    waveDrawer.draw;
                 });
-                waveDrawer.draw();
-            });
-
-            const waveLengthInput = document.getElementById(`wave-length-${i}`);
-            waveLengthInput.addEventListener("input", () => {
-                waveDrawer.draw();
-            });
-
-            const waveHeightInput = document.getElementById(`wave-height-${i}`);
-            waveHeightInput.addEventListener("input", () => {
-                waveDrawer.draw();
-            });
-
-            const waveDistortionInput = document.getElementById(
-                `wave-distortion-${i}`
-            );
-            waveDistortionInput.addEventListener("input", () => {
-                waveDrawer.draw();
-            });
-
-            const bgColorInput = document.getElementById(`bg-color`);
-            bgColorInput.addEventListener("input", () => {
-                waveDrawer.draw();
-            });
-
-            const lineColorInput = document.getElementById(`line-color`);
-            lineColorInput.addEventListener("input", () => {
-                waveDrawer.draw();
-            });
-
-            const lineWidthInput = document.getElementById(`line-width`);
-            lineWidthInput.addEventListener("input", () => {
-                waveDrawer.draw();
             });
         }
-
-        initializeCanvas(canvasCount - 1);
 
         document.querySelectorAll(".download").forEach((element) => {
             element.addEventListener("click", (event) => {
@@ -327,6 +263,39 @@ window.onload = function () {
 
     document.getElementById("add-canvas").addEventListener("click", addCanvas);
 
+    function mergeSVGs(id) {
+        const newSVG = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "svg"
+        );
+        const existingSVG = document.getElementById(`newCanvas-${id}`);
+        if (existingSVG) existingSVG.innerHTML = "";
+        else newSVG.setAttribute("id", `newCanvas-${id}`);
+
+        Array.from(
+            selectElementsWithIdsTill(id)[0].querySelector("svg").attributes
+        ).forEach((attr) =>
+            newSVG.setAttributeNS(attr.namespaceURI, attr.name, attr.value)
+        );
+        selectElementsWithIdsTill(id).forEach((svg) =>
+            Array.from(svg.querySelectorAll("path")).forEach((path) =>
+                newSVG.appendChild(path.cloneNode(true))
+            )
+        );
+        (existingSVG || document.getElementById(`myCanvas-${id}`)).appendChild(
+            newSVG
+        );
+
+        // Set the viewBox attribute dynamically
+        const bbox = newSVG.getBBox();
+        const viewBoxValue = `${bbox.x - 10} ${bbox.y - 10} ${
+            bbox.width + 20
+        } ${bbox.height + 20}`;
+        newSVG.setAttribute("viewBox", viewBoxValue);
+
+        return new XMLSerializer().serializeToString(newSVG);
+    }
+
     function selectElementsWithIdsTill(id) {
         let selectors = [];
         for (let i = 1; i <= id; i++) {
@@ -336,39 +305,13 @@ window.onload = function () {
         return document.querySelectorAll(query);
     }
 
-    function initializeCanvas(id) {
-        const newCanvas = document.getElementById(`newCanvas-${id}`);
-        const newCtx = newCanvas.getContext("2d");
-
-        const canvasElements = selectElementsWithIdsTill(id);
-
-        function redraw() {
-            newCtx.clearRect(0, 0, newCanvas.width, newCanvas.height);
-
-            for (let i = 0; i < canvasElements.length; i++) {
-                const canvas = canvasElements[i];
-                const ctx = canvas.getContext("2d");
-
-                newCtx.drawImage(canvas, 0, 0);
-
-                newCanvas.style.zIndex = i + 1;
-            }
-
-            requestAnimationFrame(redraw);
-        }
-
-        redraw();
-    }
-
     let name = document.getElementById("canvas-name");
     name.addEventListener("input", (event) => {
         name.value = event.target.value;
     });
 
-    initializeCanvas(1);
-
     function downloadSVG(id) {
-        let canvas = document.getElementById(`newCanvas-${id}`);
+        let canvas = document.getElementById(`myCanvas-${id}`);
         let pngData = canvas.toDataURL("image/png");
         potrace.trace(pngData, (err, svg) => {
             if (err) throw err;
@@ -379,8 +322,10 @@ window.onload = function () {
         });
     }
 
+    mergeSVGs(1);
+
     function downloadPNG(id) {
-        let canvas = document.getElementById(`newCanvas-${id}`);
+        let canvas = document.getElementById(`myCanvas-${id}`);
         let anchor = document.createElement("a");
         anchor.href = canvas.toDataURL("image/png");
         anchor.download = `${name.value}.png`;
@@ -400,7 +345,7 @@ window.onload = function () {
         });
     });
 
-    document.querySelectorAll(".newCanvas").forEach((element) => {
+    document.querySelectorAll(".myCanvas").forEach((element) => {
         let canvasHeightInput = document.getElementById("canvas-height").value;
         element.style.height = canvasHeightInput + "px";
     });
