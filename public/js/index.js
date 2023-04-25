@@ -110,9 +110,6 @@ window.onload = function () {
                         700) /
                         99
             );
-            console.log(
-                `waveLength = ${waveLength}, waveHeight = ${waveHeight}, waveDistortion = ${waveDistortion}`
-            );
             const bgColor = document.getElementById(this.bgColorInputId).value;
             this.newCanvas.style.backgroundColor = bgColor;
             const lineColor = document.getElementById(
