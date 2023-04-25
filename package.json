@@ -34,6 +34,7 @@
     },
     "dependencies": {
         "canvg": "^4.0.1",
-        "html2canvas": "^1.4.1"
+        "html2canvas": "^1.4.1",
+        "potrace": "^2.1.8"
     }
 }

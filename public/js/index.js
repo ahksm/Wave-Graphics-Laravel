@@ -1,5 +1,4 @@
-// import { Canvg } from "canvg";
-// import html2canvas from "html2canvas";
+import potrace from "potrace";
 
 window.onload = function () {
     class WaveDrawer {
@@ -31,13 +30,13 @@ window.onload = function () {
             this.newCanvas.width = this.canvasWidthInput.value;
             this.newCanvas.height = this.canvasHeightInput.value;
 
-            this.width = 300;
-            this.height = 300;
+            this.width = 600;
+            this.height = 600;
 
             this.amplitude = this.canvas.height / 20;
             this.frequency = 0.0001;
             this.speed = 0.0009;
-            this.numWaves = (this.canvas.height / this.amplitude) * 2;
+            this.numWaves = this.canvas.height / this.amplitude;
             this.waveInterval = (this.amplitude * 34) / this.numWaves;
 
             this.lineWidthInputId = lineWidthInputId;
@@ -90,13 +89,26 @@ window.onload = function () {
 
             let prevLine;
             const waveLength = parseFloat(
-                document.getElementById(this.waveLengthInputId).value
+                -0.001 +
+                    ((document.getElementById(this.waveLengthInputId).value -
+                        1) *
+                        0.002) /
+                        99
             );
             const waveHeight = parseFloat(
-                document.getElementById(this.waveHeightInputId).value
+                -100 +
+                    ((document.getElementById(this.waveHeightInputId).value -
+                        1) *
+                        200) /
+                        99
             );
             const waveDistortion = parseFloat(
-                document.getElementById(this.waveDistortionInputId).value
+                -500 +
+                    ((document.getElementById(this.waveDistortionInputId)
+                        .value -
+                        1) *
+                        700) /
+                        99
             );
             const bgColor = document.getElementById(this.bgColorInputId).value;
             this.newCanvas.style.backgroundColor = bgColor;
@@ -158,6 +170,7 @@ window.onload = function () {
         document.querySelectorAll(".newCanvas").forEach((element) => {
             element.style.height = event.target.value + "px";
         });
+        canvasHeightInput.setAttribute("value", canvasHeightInput.value);
         waveDrawer.draw();
     });
 
@@ -208,27 +221,33 @@ window.onload = function () {
         canvasContainer.classList.add("layer");
         canvasContainer.setAttribute("id", `layer-${canvasCount}`);
         canvasContainer.innerHTML = `
-                    <div class="inputs">
-                        <h2>Wavelayer${canvasCount}</h2>
-                        <div class="input-form">
-                            <label for="wave-length-${canvasCount}">Wave Length:</label>
-                            <input type="number" id="wave-length-${canvasCount}" value="0.01" step="0.001" />
-                        </div>
-                        <div class="input-form">
-                            <label for="wave-height-${canvasCount}">Wave Height:</label>
-                            <input type="number" id="wave-height-${canvasCount}" value="25" step="1" />
-                        </div>
-                        <div class="input-form">
-                            <label for="wave-distortion-${canvasCount}">Wave Distortion:</label>
-                            <input type="number" id="wave-distortion-${canvasCount}" value="50" step="1" />
-                        </div>
-                        <button class="download" data-id="${canvasCount}">Download</button>
-                    </div>
-                    <div id="canvas-container">
-                        <canvas class="myCanvas" id="${canvasName}"></canvas>
-                        <canvas class="newCanvas" id="newCanvas-${canvasCount}"></canvas>
-                    </div>
-                `;
+        <div class="inputs">
+            <h2>Wavelayer${canvasCount}</h2>
+            <div class="input-form">
+                <label for="wave-length-${canvasCount}">Wave Length:</label>
+                <input type="number" id="wave-length-${canvasCount}" value="${
+            Math.floor(Math.random() * 100) + 1
+        }" min="1" max="100" step="1" />
+            </div>
+            <div class="input-form">
+                <label for="wave-height-${canvasCount}">Wave Height:</label>
+                <input type="number" id="wave-height-${canvasCount}" value="${
+            Math.floor(Math.random() * 100) + 1
+        }" min="1" max="100" step="1" />
+            </div>
+            <div class="input-form">
+                <label for="wave-distortion-${canvasCount}">Wave Distortion:</label>
+                <input type="number" id="wave-distortion-${canvasCount}" value="${
+            Math.floor(Math.random() * 100) + 1
+        }" min="1" max="100" step="1" />
+            </div>
+            <button class="download" data-id="${canvasCount}">Download</button>
+        </div>
+        <div id="canvas-container">
+            <canvas class="myCanvas" id="${canvasName}"></canvas>
+            <canvas class="newCanvas" id="newCanvas-${canvasCount}"></canvas>
+        </div>
+    `;
         const mainContainer = document.getElementById("main-container");
         mainContainer.appendChild(canvasContainer);
 
@@ -260,6 +279,10 @@ window.onload = function () {
                 document.querySelectorAll(".newCanvas").forEach((element) => {
                     element.style.height = event.target.value + "px";
                 });
+                canvasHeightInput.setAttribute(
+                    "value",
+                    canvasHeightInput.value
+                );
                 waveDrawer.draw();
             });
 
@@ -298,7 +321,6 @@ window.onload = function () {
 
         initializeCanvas(canvasCount - 1);
 
-        console.log(document.querySelectorAll(".download"));
         document.querySelectorAll(".download").forEach((element) => {
             element.addEventListener("click", (event) => {
                 let format = document.querySelector(
@@ -307,13 +329,12 @@ window.onload = function () {
                 if (format === "png") {
                     downloadPNG(event.target.getAttribute("data-id"));
                 } else if (format === "svg") {
-                    downloadCanvasAsSVG(event.target.getAttribute("data-id"));
+                    downloadSVG(event.target.getAttribute("data-id"));
                 }
             });
         });
 
         document.querySelectorAll(".delete").forEach((element) => {
-            console.log(element);
             element.addEventListener("click", (event) => {
                 let id = event.target.getAttribute("data-id");
                 document.getElementById(`layer-${id}`).remove();
@@ -359,65 +380,21 @@ window.onload = function () {
     let name = document.getElementById("canvas-name");
     name.addEventListener("input", (event) => {
         name.value = event.target.value;
-        console.log(name.value);
     });
 
-    function canvasToSVGString(canvas) {
-        const ctx = canvas.getContext("2d");
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imageData.data;
-
-        const svg = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "svg"
-        );
-        svg.setAttribute("width", canvas.width);
-        svg.setAttribute("height", canvas.height);
-
-        for (let y = 0; y < canvas.height; y++) {
-            for (let x = 0; x < canvas.width; x++) {
-                const index = (y * canvas.width + x) * 4;
-                const r = data[index];
-                const g = data[index + 1];
-                const b = data[index + 2];
-                const a = data[index + 3] / 255;
-
-                const rect = document.createElementNS(
-                    "http://www.w3.org/2000/svg",
-                    "rect"
-                );
-                rect.setAttribute("x", x);
-                rect.setAttribute("y", y);
-                rect.setAttribute("width", 1);
-                rect.setAttribute("height", 1);
-                rect.setAttribute("fill", `rgba(${r},${g},${b},${a})`);
-                svg.appendChild(rect);
-            }
-        }
-
-        const serializer = new XMLSerializer();
-        const svgString = serializer.serializeToString(svg);
-
-        return svgString;
-    }
-
-    function downloadCanvasAsSVG(id) {
-        const canvas = document.getElementById(`newCanvas-${id}`);
-        const svgString = canvasToSVGString(canvas);
-
-        const downloadLink = document.createElement("a");
-        downloadLink.setAttribute(
-            "href",
-            "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgString)
-        );
-        downloadLink.setAttribute("download", `${name.value}.svg`);
-        downloadLink.style.display = "none";
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
-    }
-
     initializeCanvas(1);
+
+    function downloadSVG(id) {
+        let canvas = document.getElementById(`newCanvas-${id}`);
+        let pngData = canvas.toDataURL("image/png");
+        potrace.trace(pngData, (err, svg) => {
+            if (err) throw err;
+            let anchor = document.createElement("a");
+            anchor.href = "data:image/svg+xml;base64," + btoa(svg);
+            anchor.download = `${name.value}.svg`;
+            anchor.click();
+        });
+    }
 
     function downloadPNG(id) {
         let canvas = document.getElementById(`newCanvas-${id}`);
@@ -435,7 +412,7 @@ window.onload = function () {
             if (format === "png") {
                 downloadPNG(event.target.getAttribute("data-id"));
             } else if (format === "svg") {
-                downloadCanvasAsSVG(event.target.getAttribute("data-id"));
+                downloadSVG(event.target.getAttribute("data-id"));
             }
         });
     });

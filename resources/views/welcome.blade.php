@@ -123,9 +123,9 @@
             <div class="input-form">
                 <label>Size in Pixel</label>
                 <div>
-                    <input type="number" id="canvas-width" min="10" value="150" step="10" />
+                    <input type="number" id="canvas-width" min="10" value="300" step="10" />
                     <label for="canvas-width" style="margin-top: 5px">Width</label>
-                    <input type="number" id="canvas-height" min="10" value="150" step="10" />
+                    <input type="number" id="canvas-height" min="10" value="300" step="10" />
                     <label for="canvas-height" style="margin-top: 5px; margin-bottom: 30px">Height</label>
                 </div>
             </div>
@@ -149,15 +149,15 @@
                     <h2>Wavelayer1</h2>
                     <div class="input-form">
                         <label for="wave-length-1">Wave Length:</label>
-                        <input type="number" id="wave-length-1" value="0.01" step="0.001" />
+                        <input type="number" id="wave-length-1" min="1" max="100" value="" step="1" />
                     </div>
                     <div class="input-form">
                         <label for="wave-height-1">Wave Height:</label>
-                        <input type="number" id="wave-height-1" value="25" step="1" />
+                        <input type="number" id="wave-height-1" min="1" max="100" value="" step="1" />
                     </div>
                     <div class="input-form">
                         <label for="wave-distortion-1">Wave Distortion:</label>
-                        <input type="number" id="wave-distortion-1" value="50" step="1" />
+                        <input type="number" id="wave-distortion-1" min="1" max="100" value="" step="1" />
                     </div>
                     <button class="download" data-id="1">Download</button>
                 </div>
@@ -179,6 +179,11 @@
             <input type="color" id="bg-color" value="#ffffff" />
         </div>
     </div>
+    <script>
+        document.getElementById('wave-length-1').value = Math.floor(Math.random() * 100) + 1;
+        document.getElementById('wave-height-1').value = Math.floor(Math.random() * 100) + 1;
+        document.getElementById('wave-distortion-1').value = Math.floor(Math.random() * 100) + 1;
+    </script>
     <script src="{{ asset('js/index.js') }}" defer></script>
 </body>
 
