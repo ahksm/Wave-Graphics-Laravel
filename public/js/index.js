@@ -89,13 +89,29 @@ window.onload = function () {
 
             let prevLine;
             const waveLength = parseFloat(
-                document.getElementById(this.waveLengthInputId).value
+                -0.001 +
+                    ((document.getElementById(this.waveLengthInputId).value -
+                        1) *
+                        0.002) /
+                        99
             );
             const waveHeight = parseFloat(
-                document.getElementById(this.waveHeightInputId).value
+                -100 +
+                    ((document.getElementById(this.waveHeightInputId).value -
+                        1) *
+                        200) /
+                        99
             );
             const waveDistortion = parseFloat(
-                document.getElementById(this.waveDistortionInputId).value
+                -500 +
+                    ((document.getElementById(this.waveDistortionInputId)
+                        .value -
+                        1) *
+                        700) /
+                        99
+            );
+            console.log(
+                `waveLength = ${waveLength}, waveHeight = ${waveHeight}, waveDistortion = ${waveDistortion}`
             );
             const bgColor = document.getElementById(this.bgColorInputId).value;
             this.newCanvas.style.backgroundColor = bgColor;
@@ -212,22 +228,21 @@ window.onload = function () {
             <h2>Wavelayer${canvasCount}</h2>
             <div class="input-form">
                 <label for="wave-length-${canvasCount}">Wave Length:</label>
-                <input type="number" id="wave-length-${canvasCount}" value="${(
-                (Math.random() - 0.5) * 0.02 +
-                0.01
-            ).toFixed(3)}" step="0.001" />
+                <input type="number" id="wave-length-${canvasCount}" value="${
+            Math.floor(Math.random() * 100) + 1
+        }" min="1" max="100" step="1" />
             </div>
             <div class="input-form">
                 <label for="wave-height-${canvasCount}">Wave Height:</label>
-                <input type="number" id="wave-height-${canvasCount}" value="${Math.floor(
-                (Math.random() - 0.5) * 20 + 25
-            )}" step="1" />
+                <input type="number" id="wave-height-${canvasCount}" value="${
+            Math.floor(Math.random() * 100) + 1
+        }" min="1" max="100" step="1" />
             </div>
             <div class="input-form">
                 <label for="wave-distortion-${canvasCount}">Wave Distortion:</label>
-                <input type="number" id="wave-distortion-${canvasCount}" value="${Math.floor(
-                (Math.random() - 0.5) * 40 + 50
-            )}" step="1" />
+                <input type="number" id="wave-distortion-${canvasCount}" value="${
+            Math.floor(Math.random() * 100) + 1
+        }" min="1" max="100" step="1" />
             </div>
             <button class="download" data-id="${canvasCount}">Download</button>
         </div>
@@ -235,7 +250,7 @@ window.onload = function () {
             <canvas class="myCanvas" id="${canvasName}"></canvas>
             <canvas class="newCanvas" id="newCanvas-${canvasCount}"></canvas>
         </div>
-                `;
+    `;
         const mainContainer = document.getElementById("main-container");
         mainContainer.appendChild(canvasContainer);
 
