@@ -51,8 +51,7 @@ window.onload = function () {
         }
 
         drawWave(yOffset, waveAmplitude, waveFrequency, prevLine) {
-            this.ctx.beginPath();
-            this.ctx.moveTo(-this.width / 2, yOffset);
+            let d = `M ${-this.width / 2} ${yOffset} `;
             for (let i = 0; i < this.width; i++) {
                 let y =
                     yOffset +
