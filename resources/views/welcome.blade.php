@@ -108,9 +108,21 @@
 
 <body>
     <div class="sidebar">
+        <img style="width: 80px; height: 80px; margin: 20px 30px"
+            src="/storage/photo_2023-04-17_13-50-31-removebg-preview.png" alt="alt">
         <form action="/logout" method="POST">
             @csrf
-            <button type="submit" name="logout">Log Out</button>
+            <button
+                style="position: fixed; 
+                        top: 10px; 
+                        right: 10px;
+                        background-color: #a4b6c2;
+                        color: #fff;
+                        padding: 0.5rem 1rem;
+                        border: none;
+                        font-size: 1.2rem;
+                        cursor: pointer;"
+                type="submit" name="logout">Log Out</button>
         </form>
     </div>
     <div class="container">
@@ -170,8 +182,8 @@
                     <div class="input-form">
                         <label for="wave-distortion-1">Wave Distortion:</label>
                         <div style="display: flex; align-items: center; gap: 10px">
-                            <input type="number" id="wave-distortion-1.1" min="1" max="100" value="1"
-                                step="1" />
+                            <input type="number" id="wave-distortion-1.1" min="1" max="100"
+                                value="1" step="1" />
                             -
                             <input type="number" id="wave-distortion-1.2" min="1" max="100"
                                 value="100" step="1" />
