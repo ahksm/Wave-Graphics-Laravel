@@ -30,8 +30,8 @@ window.onload = function () {
             this.newCanvas.width = this.canvasWidthInput.value;
             this.newCanvas.height = this.canvasHeightInput.value;
 
-            this.width = 600;
-            this.height = 600;
+            this.width = this.canvasWidthInput.value * 2;
+            this.height = this.canvasHeightInput.value * 2;
 
             this.amplitude = this.canvas.height / 20;
             this.frequency = 0.0001;
