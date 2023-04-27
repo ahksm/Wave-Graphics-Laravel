@@ -160,6 +160,25 @@ window.onload = function () {
         "canvas-name"
     );
 
+    document.querySelector("#try-again").addEventListener("click", () => {
+        ["length", "height", "distortion"].forEach(
+            (property) =>
+                (document.getElementById(`wave-${property}-1`).value =
+                    Math.floor(
+                        Math.random() *
+                            (+document.getElementById(`wave-${property}-1.2`)
+                                .value -
+                                +document.getElementById(`wave-${property}-1.1`)
+                                    .value +
+                                1) +
+                            +document.getElementById(`wave-${property}-1.1`)
+                                .value
+                    ))
+        );
+        waveDrawer.draw();
+    });
+    document.querySelector("#try-again").click();
+
     const canvasWidthInput = document.getElementById("canvas-width");
     canvasWidthInput.addEventListener("input", () => {
         waveDrawer.draw();
@@ -225,23 +244,33 @@ window.onload = function () {
             <h2>Wavelayer${canvasCount}</h2>
             <div class="input-form">
                 <label for="wave-length-${canvasCount}">Wave Length:</label>
-                <input type="number" id="wave-length-${canvasCount}" value="${
-            Math.floor(Math.random() * 100) + 1
-        }" min="1" max="100" step="1" />
+                <div style="display: flex; align-items: center; gap: 10px">
+                    <input type="number" id="wave-length-${canvasCount}.1" value="1" min="1" max="100" step="1" />
+                    -
+                    <input type="number" id="wave-length-${canvasCount}.2" value="100" min="1" max="100" step="1" />
+                </div>
             </div>
             <div class="input-form">
                 <label for="wave-height-${canvasCount}">Wave Height:</label>
-                <input type="number" id="wave-height-${canvasCount}" value="${
-            Math.floor(Math.random() * 100) + 1
-        }" min="1" max="100" step="1" />
+                <div style="display: flex; align-items: center; gap: 10px">
+                    <input type="number" id="wave-height-${canvasCount}.1" value="1" min="1" max="100" step="1" />
+                    -
+                    <input type="number" id="wave-height-${canvasCount}.2" value="100" min="1" max="100" step="1" />
+                </div>
             </div>
             <div class="input-form">
                 <label for="wave-distortion-${canvasCount}">Wave Distortion:</label>
-                <input type="number" id="wave-distortion-${canvasCount}" value="${
-            Math.floor(Math.random() * 100) + 1
-        }" min="1" max="100" step="1" />
+                <div style="display: flex; align-items: center; gap: 10px">
+                    <input type="number" id="wave-distortion-${canvasCount}.1" value="1" min="1" max="100" step="1" />
+                    -
+                    <input type="number" id="wave-distortion-${canvasCount}.2" value="100" min="1" max="100" step="1" />
+                </div>
             </div>
+            <input type="hidden" id="wave-length-${canvasCount}">
+            <input type="hidden" id="wave-height-${canvasCount}">
+            <input type="hidden" id="wave-distortion-${canvasCount}">
             <button class="download" data-id="${canvasCount}">Download</button>
+            <button class="try-again" data-id="${canvasCount}">Try Again</button>
         </div>
         <div id="canvas-container">
             <canvas class="myCanvas" id="${canvasName}"></canvas>
@@ -316,6 +345,30 @@ window.onload = function () {
             const lineWidthInput = document.getElementById(`line-width`);
             lineWidthInput.addEventListener("input", () => {
                 waveDrawer.draw();
+            });
+
+            document.querySelectorAll(".try-again").forEach((button) => {
+                button.addEventListener("click", () => {
+                    ["length", "height", "distortion"].forEach(
+                        (property) =>
+                            (document.getElementById(
+                                `wave-${property}-${button.dataset.id}`
+                            ).value = Math.floor(
+                                Math.random() *
+                                    (+document.getElementById(
+                                        `wave-${property}-${button.dataset.id}.2`
+                                    ).value -
+                                        +document.getElementById(
+                                            `wave-${property}-${button.dataset.id}.1`
+                                        ).value +
+                                        1) +
+                                    +document.getElementById(
+                                        `wave-${property}-${button.dataset.id}.1`
+                                    ).value
+                            ))
+                    );
+                    waveDrawer.draw();
+                });
             });
         }
 
