@@ -225,11 +225,14 @@ window.onload = function () {
 
     waveDrawer.draw();
 
-    const maxCanvasCount = 6;
+    document.getElementById("graphics-number").addEventListener("input", () => {
+        let maxCanvasCount = document.getElementById("graphics-number").value;
+        addCanvas(maxCanvasCount)
+    });
     let canvasCount = 2;
 
-    function addCanvas() {
-        if (canvasCount == 6) {
+    function addCanvas(maxCanvasCount) {
+        if (canvasCount == maxCanvasCount) {
             document.getElementById("add-canvas").style.display = "none";
         }
         if (canvasCount > maxCanvasCount) {
@@ -384,13 +387,6 @@ window.onload = function () {
                 } else if (format === "svg") {
                     downloadSVG(event.target.getAttribute("data-id"));
                 }
-            });
-        });
-
-        document.querySelectorAll(".delete").forEach((element) => {
-            element.addEventListener("click", (event) => {
-                let id = event.target.getAttribute("data-id");
-                document.getElementById(`layer-${id}`).remove();
             });
         });
     }

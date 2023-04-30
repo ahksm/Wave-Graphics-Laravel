@@ -25,8 +25,9 @@
         }
 
         .sidebar {
-            width: 15vw;
+            width: 12vw;
             background-color: #a4b6c2;
+            min-height: 100vh
         }
 
         .container {
@@ -37,8 +38,7 @@
 
         .main-inputs {
             display: flex;
-            flex-direction: column;
-            gap: 20px;
+            gap: 100px;
             margin-top: 30px;
         }
 
@@ -128,31 +128,51 @@
     <div class="container">
         <h1>Generate Graphic Set</h1>
         <div class="main-inputs">
-            <div class="input-form">
-                <label for="canvas-name">Graphic Set Name:</label>
-                <input type="text" id="canvas-name" value="myCanvas" />
-            </div>
-            <div class="input-form">
-                <label>Size in Pixel</label>
-                <div>
-                    <input type="number" id="canvas-width" min="10" value="300" step="10" />
-                    <label for="canvas-width" style="margin-top: 5px">Width</label>
-                    <input type="number" id="canvas-height" min="10" value="300" step="10" />
-                    <label for="canvas-height" style="margin-top: 5px; margin-bottom: 30px">Height</label>
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="input-form">
+                    <label for="canvas-name">Graphic Set Name:</label>
+                    <input type="text" id="canvas-name" value="myCanvas" />
+                </div>
+                <div class="input-form">
+                    <label>Size in Pixel</label>
+                    <div>
+                        <input type="number" id="canvas-width" min="10" value="300" step="10" />
+                        <label for="canvas-width" style="margin-top: 5px">Width</label>
+                        <input type="number" id="canvas-height" min="10" value="300" step="10" />
+                        <label for="canvas-height" style="margin-top: 5px; margin-bottom: 30px">Height</label>
+                    </div>
+                </div>
+                <div class="input-form">
+                    <label for="canvas-name">Number of graphics:</label>
+                    <input type="number" id="graphics-number" min="1" max="100" value="6" />
+                </div>
+                <div class="input-form">
+                    <label for="format">Format</label>
+                    <div style="display: flex">
+                        <input type="radio" name="format" value="png" checked />
+                        <label for="format" style="margin-left: 10px; margin-right: 10px">.png</label>
+                        <input type="radio" name="format" value="svg" />
+                        <label for="format" style="margin-left: 10px">.svg</label>
+                    </div>
+                </div>
+                <div class="input-form" style="margin-bottom: 30px">
+                    <label for="type">Type</label>
+                    <p>Wave graphics</p>
                 </div>
             </div>
-            <div class="input-form">
-                <label for="format">Format</label>
-                <div style="display: flex">
-                    <input type="radio" name="format" value="png" checked />
-                    <label for="format" style="margin-left: 10px; margin-right: 10px">.png</label>
-                    <input type="radio" name="format" value="svg" />
-                    <label for="format" style="margin-left: 10px">.svg</label>
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="input-form">
+                    <label for="line-width">Line Thickness:</label>
+                    <input type="number" id="line-width" value="1" min="1" step="1" />
                 </div>
-            </div>
-            <div class="input-form" style="margin-bottom: 30px">
-                <label for="type">Type</label>
-                <p>Wave graphics</p>
+                <div class="input-form">
+                    <label for="line-color">Line Color:</label>
+                    <input type="color" id="line-color" value="#000000" />
+                </div>
+                <div class="input-form" style="margin-bottom: 1rem">
+                    <label for="bg-color">Background Color:</label>
+                    <input type="color" id="bg-color" value="#ffffff" />
+                </div>
             </div>
         </div>
         <div id="main-container">
@@ -200,18 +220,6 @@
             </div>
         </div>
         <button type="button" id="add-canvas">+ ADD WAVELAYER</button>
-        <div class="input-form">
-            <label for="line-width">Line Thickness:</label>
-            <input type="number" id="line-width" value="1" min="1" step="1" />
-        </div>
-        <div class="input-form">
-            <label for="line-color">Line Color:</label>
-            <input type="color" id="line-color" value="#000000" />
-        </div>
-        <div class="input-form" style="margin-bottom: 1rem">
-            <label for="bg-color">Background Color:</label>
-            <input type="color" id="bg-color" value="#ffffff" />
-        </div>
     </div>
     <script>
         document.getElementById('wave-length-1').value = Math.floor(Math.random() * 100) + 1;
