@@ -119,6 +119,44 @@
         input[type="submit"]:hover {
             background-color: #222;
         }
+
+        #main-container {
+            position: relative;
+        }
+
+        .loader {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform: translateX(-20px);
+            z-index: 9999;
+            background-color: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+            display: none;
+        }
+
+        .loader:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border-top: 3px solid #333;
+            border-right: 3px solid transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 

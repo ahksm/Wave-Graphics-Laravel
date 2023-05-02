@@ -1,5 +1,6 @@
 <x-layout>
     <div id="main-container">
+        <div class="loader"></div>
         <div class="layer" id="layer-1">
             <div class="inputs">
                 <h2>Wavelayer1</h2>
@@ -18,6 +19,7 @@
                         step="1" />
                 </div>
                 <button class="download" data-id="1">Download</button>
+                <button id="try-again" data-id="1">Try Again</button>
             </div>
             <canvas class="myCanvas" id="myCanvas-1"></canvas>
             <canvas class="newCanvas" id="newCanvas-1"></canvas>

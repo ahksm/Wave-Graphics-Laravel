@@ -207,24 +207,8 @@ window.onload = function () {
     waveDrawer.draw();
 
     let canvasCount = 2;
-    let maxCanvasCount = document.getElementById("graphics-number").value;
-
-    document.getElementById("graphics-number").addEventListener("input", () => {
-        maxCanvasCount = document.getElementById("graphics-number").value;
-        if (maxCanvasCount > canvasCount - 1) {
-            document.getElementById("add-canvas").style.display = "block";
-        }
-    });
 
     function addCanvas() {
-        console.log(canvasCount, maxCanvasCount);
-        if (canvasCount == maxCanvasCount) {
-            document.getElementById("add-canvas").style.display = "none";
-        }
-        if (canvasCount > maxCanvasCount) {
-            return;
-        }
-        
         const canvasName = `myCanvas-${canvasCount}`;
         const canvasContainer = document.createElement("div");
         canvasContainer.classList.add("layer");
@@ -342,6 +326,20 @@ window.onload = function () {
 
         canvasCount++;
     }
+
+    document.getElementById("add-canvas").addEventListener("click", () => {
+        document.querySelector(".loader").style.display = "block";
+        for (
+            let i = 0;
+            i < document.getElementById("graphics-number").value;
+            i++
+        ) {
+            addCanvas();
+        }
+        setTimeout(() => {
+            document.querySelector(".loader").style.display = "none";
+        }, 2000);
+    });
 
     document.getElementById("add-canvas").addEventListener("click", addCanvas);
 
