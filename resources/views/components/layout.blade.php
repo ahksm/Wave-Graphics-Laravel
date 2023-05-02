@@ -11,6 +11,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            text-decoration: none;
         }
 
         body {
@@ -25,9 +26,24 @@
         }
 
         .sidebar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
             width: 12vw;
             background-color: #a4b6c2;
-            min-height: 100vh
+            min-height: 100vh;
+        }
+
+        .sidebar a {
+            width: 100%;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            padding: 20px 0px;
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
         }
 
         .container {
@@ -124,6 +140,8 @@
                         cursor: pointer;"
                 type="submit" name="logout">Log Out</button>
         </form>
+        <a href="/">Single</a>
+        <a href="/random">Random</a>
     </div>
     <div class="container">
         <h1>Generate Graphic Set</h1>
@@ -144,7 +162,7 @@
                 </div>
                 <div class="input-form">
                     <label for="canvas-name">Number of graphics:</label>
-                    <input type="number" id="graphics-number" min="1" max="100" value="6" />
+                    <input type="number" id="graphics-number" min="1" max="100" value="2" />
                 </div>
                 <div class="input-form">
                     <label for="format">Format</label>
@@ -175,58 +193,4 @@
                 </div>
             </div>
         </div>
-        <div id="main-container">
-            <div class="layer" id="layer-1">
-                <div class="inputs">
-                    <h2>Wavelayer1</h2>
-                    <div class="input-form">
-                        <label for="wave-length-1">Wave Length:</label>
-                        <div style="display: flex; align-items: center; gap: 10px">
-                            <input type="number" id="wave-length-1.1" min="1" max="100" value="1"
-                                step="1" />
-                            -
-                            <input type="number" id="wave-length-1.2" min="1" max="100" value="100"
-                                step="1" />
-                        </div>
-                    </div>
-                    <div class="input-form">
-                        <label for="wave-height-1">Wave Height:</label>
-                        <div style="display: flex; align-items: center; gap: 10px">
-                            <input type="number" id="wave-height-1.1" min="1" max="100" value="1"
-                                step="1" />
-                            -
-                            <input type="number" id="wave-height-1.2" min="1" max="100" value="100"
-                                step="1" />
-                        </div>
-                    </div>
-                    <div class="input-form">
-                        <label for="wave-distortion-1">Wave Distortion:</label>
-                        <div style="display: flex; align-items: center; gap: 10px">
-                            <input type="number" id="wave-distortion-1.1" min="1" max="100"
-                                value="1" step="1" />
-                            -
-                            <input type="number" id="wave-distortion-1.2" min="1" max="100"
-                                value="100" step="1" />
-                        </div>
-                    </div>
-                    <input type="hidden" id="wave-length-1">
-                    <input type="hidden" id="wave-height-1">
-                    <input type="hidden" id="wave-distortion-1">
-                    <button class="download" data-id="1">Download</button>
-                    <button id="try-again" data-id="1">Try Again</button>
-                </div>
-                <canvas class="myCanvas" id="myCanvas-1"></canvas>
-                <canvas class="newCanvas" id="newCanvas-1"></canvas>
-            </div>
-        </div>
-        <button type="button" id="add-canvas">+ ADD WAVELAYER</button>
-    </div>
-    <script>
-        document.getElementById('wave-length-1').value = Math.floor(Math.random() * 100) + 1;
-        document.getElementById('wave-height-1').value = Math.floor(Math.random() * 100) + 1;
-        document.getElementById('wave-distortion-1').value = Math.floor(Math.random() * 100) + 1;
-    </script>
-    <script src="{{ asset('js/index.js') }}" defer></script>
-</body>
-
-</html>
+        {{ $slot }}
