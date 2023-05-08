@@ -1,6 +1,5 @@
-<x-layout>
+<x-layout :random="$random">
     <div id="main-container">
-        <div class="loader"></div>
         <div class="layer" id="layer-1">
             <div class="inputs">
                 <h2>Wavelayer1</h2>

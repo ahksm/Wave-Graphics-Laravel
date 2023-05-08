@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('regular');
+    return view('regular', ['random' => false]);
 })->middleware('auth')->name('home');
 
 Route::get('/random', function () {
-    return view('random');
+    return view('random', ['random' => true]);
 })->middleware('auth')->name('home');
 
 require __DIR__ . '/auth.php';

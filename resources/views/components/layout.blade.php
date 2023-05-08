@@ -153,6 +153,7 @@
             from {
                 transform: rotate(0deg);
             }
+
             to {
                 transform: rotate(360deg);
             }
@@ -198,10 +199,12 @@
                         <label for="canvas-height" style="margin-top: 5px; margin-bottom: 30px">Height</label>
                     </div>
                 </div>
-                <div class="input-form">
-                    <label for="canvas-name">Number of graphics:</label>
-                    <input type="number" id="graphics-number" min="1" max="100" value="2" />
-                </div>
+                @if ($random)
+                    <div class="input-form">
+                        <label for="canvas-name">Number of graphics:</label>
+                        <input type="number" id="graphics-number" min="1" max="100" value="2" />
+                    </div>
+                @endif
                 <div class="input-form">
                     <label for="format">Format</label>
                     <div style="display: flex">
