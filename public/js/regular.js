@@ -1,4 +1,4 @@
-import { Potrace } from "potrace";
+import potrace from "potrace";
 
 window.onload = function () {
     class WaveDrawer {
@@ -357,7 +357,7 @@ window.onload = function () {
     function downloadSVG(id) {
         var canvas = document.getElementById("newCanvas-".concat(id));
         var pngData = canvas.toDataURL("image/png");
-        Potrace.trace(pngData, function (err, svg) {
+        potrace.trace(pngData, function (err, svg) {
             if (err) throw err;
             var anchor = document.createElement("a");
             anchor.href = "data:image/svg+xml;base64," + btoa(svg);
