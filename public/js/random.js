@@ -230,44 +230,36 @@ window.onload = function () {
     function addCanvas() {
         const canvasName = `myCanvas-${canvasCount}`;
         const canvasContainer = document.createElement("div");
-        canvasContainer.classList.add("layer");
+        canvasContainer.classList.add("layer row mb-6");
         canvasContainer.setAttribute("id", `layer-${canvasCount}`);
         canvasContainer.innerHTML = `
-            <div class="inputs">
-                <h2>Wavelayer${canvasCount}</h2>
-                <div class="input-form">
-                    <label for="wave-length-${canvasCount}">Wave Length:</label>
-                    <div style="display: flex; align-items: center; gap: 10px">
-                        <input type="number" id="wave-length-${canvasCount}.1" value="1" min="1" max="100" step="1" />
-                        -
-                        <input type="number" id="wave-length-${canvasCount}.2" value="100" min="1" max="100" step="1" />
-                    </div>
+            <div class="col-lg-3 mb-2 mb-lg-0">
+                <h2 class="mb-3">Wave Layer #${canvasCount}</h2>
+                <div class="mb-4">
+                    <label class="form-label fw-medium">Wave Length</label>
+                    <input id="wave-length-${canvasCount}" type="number" class="form-control form-control-solid" />
                 </div>
-                <div class="input-form">
-                    <label for="wave-height-${canvasCount}">Wave Height:</label>
-                    <div style="display: flex; align-items: center; gap: 10px">
-                        <input type="number" id="wave-height-${canvasCount}.1" value="1" min="1" max="100" step="1" />
-                        -
-                        <input type="number" id="wave-height-${canvasCount}.2" value="100" min="1" max="100" step="1" />
-                    </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-medium">Wave Height</label>
+                    <input id="wave-height-${canvasCount}" type="number" class="form-control form-control-solid" />
                 </div>
-                <div class="input-form">
-                    <label for="wave-distortion-${canvasCount}">Wave Distortion:</label>
-                    <div style="display: flex; align-items: center; gap: 10px">
-                        <input type="number" id="wave-distortion-${canvasCount}.1" value="1" min="1" max="100" step="1" />
-                        -
-                        <input type="number" id="wave-distortion-${canvasCount}.2" value="100" min="1" max="100" step="1" />
-                    </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-medium">Wave Distortion</label>
+                    <input id="wave-distortion-${canvasCount}" type="number" class="form-control form-control-solid" />
                 </div>
-                <input type="hidden" id="wave-length-${canvasCount}">
-                <input type="hidden" id="wave-height-${canvasCount}">
-                <input type="hidden" id="wave-distortion-${canvasCount}">
-                <button class="download" data-id="${canvasCount}">Download</button>
-                <button class="try-again" data-id="${canvasCount}">Try Again</button>
+
+                <a id="try-again" data-id="${canvasCount}" class="btn btn-soft-primary px-lg-5 d-block mb-2" href="#"><i class="bi bi-arrow-repeat me-1"></i>
+                    Reload</a>
+                <a id="download" data-id="${canvasCount}" class="btn btn-primary px-lg-5 d-block" href="#"><i class="bi bi-box-arrow-down me-1"></i>
+                    Download</a>
             </div>
-            <div id="canvas-container">
-                <canvas class="myCanvas" id="${canvasName}"></canvas>
-                <canvas class="newCanvas" id="newCanvas-${canvasCount}"></canvas>
+            <div class="col-lg-9">
+                <div id="canvas-container" class="border border-dotted p-4 overflow-auto rounded">
+                    <canvas class="myCanvas" id="myCanvas-${canvasCount}"></canvas>
+                    <canvas class="newCanvas" id="newCanvas-${canvasCount}"></canvas>
+                </div>
             </div>
         `;
         const mainContainer = document.getElementById("main-container");
@@ -367,7 +359,7 @@ window.onload = function () {
         document.querySelectorAll(".download").forEach((element) => {
             element.addEventListener("click", (event) => {
                 let format = document.querySelector(
-                    'input[name="format"]:checked'
+                    'input[name="graphics-format"]:checked'
                 ).value;
                 if (format === "png") {
                     downloadPNG(event.target.getAttribute("data-id"));
@@ -457,7 +449,7 @@ window.onload = function () {
     document.querySelectorAll(".download").forEach((element) => {
         element.addEventListener("click", (event) => {
             let format = document.querySelector(
-                'input[name="format"]:checked'
+                'input[name="graphics-format"]:checked'
             ).value;
             if (format === "png") {
                 downloadPNG(event.target.getAttribute("data-id"));
