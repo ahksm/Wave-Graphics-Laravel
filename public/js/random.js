@@ -160,18 +160,19 @@ window.onload = function () {
         "canvas-name"
     );
 
-    document.querySelector("#try-again").addEventListener("click", () => {
+    document.querySelector("#try-again").addEventListener("click", (event) => {
+        event.preventDefault();
         ["length", "height", "distortion"].forEach(
             (property) =>
                 (document.getElementById(`wave-${property}-1`).value =
                     Math.floor(
                         Math.random() *
-                            (+document.getElementById(`wave-${property}-1.2`)
+                            (+document.getElementById(`wave-${property}-max`)
                                 .value -
-                                +document.getElementById(`wave-${property}-1.1`)
+                                +document.getElementById(`wave-${property}-min`)
                                     .value +
                                 1) +
-                            +document.getElementById(`wave-${property}-1.1`)
+                            +document.getElementById(`wave-${property}-min`)
                                 .value
                     ))
         );
@@ -228,9 +229,10 @@ window.onload = function () {
     let canvasCount = 2;
 
     function addCanvas() {
-        const canvasName = `myCanvas-${canvasCount}`;
         const canvasContainer = document.createElement("div");
-        canvasContainer.classList.add("layer row mb-6");
+        canvasContainer.classList.add("layer");
+        canvasContainer.classList.add("row");
+        canvasContainer.classList.add("mb-6");
         canvasContainer.setAttribute("id", `layer-${canvasCount}`);
         canvasContainer.innerHTML = `
             <div class="col-lg-3 mb-2 mb-lg-0">
@@ -331,7 +333,8 @@ window.onload = function () {
         });
 
         document.querySelectorAll(".try-again").forEach((button) => {
-            button.addEventListener("click", () => {
+            button.addEventListener("click", (event) => {
+                event.preventDefault();
                 ["length", "height", "distortion"].forEach(
                     (property) =>
                         (document.getElementById(
@@ -358,6 +361,7 @@ window.onload = function () {
 
         document.querySelectorAll(".download").forEach((element) => {
             element.addEventListener("click", (event) => {
+                event.preventDefault();
                 let format = document.querySelector(
                     'input[name="graphics-format"]:checked'
                 ).value;
@@ -372,19 +376,22 @@ window.onload = function () {
         canvasCount++;
     }
 
-    document.getElementById("add-canvas").addEventListener("click", () => {
-        document.querySelector(".loader").style.display = "block";
-        for (
-            let i = 0;
-            i < document.getElementById("graphics-number").value;
-            i++
-        ) {
-            addCanvas();
-        }
-        setTimeout(() => {
-            document.querySelector(".loader").style.display = "none";
-        }, 2000);
-    });
+    document
+        .getElementById("add-canvas-multiple")
+        .addEventListener("click", (event) => {
+            event.preventDefault();
+            document.querySelector(".loader").style.display = "block";
+            for (
+                let i = 0;
+                i < document.getElementById("graphics-number").value;
+                i++
+            ) {
+                addCanvas();
+            }
+            setTimeout(() => {
+                document.querySelector(".loader").style.display = "none";
+            }, 2000);
+        });
 
     function selectElementsWithIdsTill(id) {
         let selectors = [];
@@ -448,6 +455,7 @@ window.onload = function () {
 
     document.querySelectorAll(".download").forEach((element) => {
         element.addEventListener("click", (event) => {
+            event.preventDefault();
             let format = document.querySelector(
                 'input[name="graphics-format"]:checked'
             ).value;

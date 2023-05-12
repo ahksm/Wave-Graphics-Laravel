@@ -29,6 +29,50 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&amp;subset=cyrillic" rel="stylesheet"
         id="wt-sky-css--725574360" />
     <link rel="stylesheet" href="{{ asset('assets/css/theme.min.css') }}" data-hs-current-theme="stylesheet" />
+    <style>
+        .myCanvas {
+            display: none;
+        }
+
+        #main-container {
+            position: relative;
+        }
+        
+        .loader {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform: translateX(-20px);
+            z-index: 9999;
+            background-color: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+            display: none;
+        }
+
+        .loader:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border-top: 3px solid #333;
+            border-right: 3px solid transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 </head>
 
 <body class="bg-light" monica-version="1.6.0" monica-id="ofpnmcalabcbjgholdjcjblkibolbppb">
@@ -338,11 +382,11 @@
                     <div class="row mb-4">
                         <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Number of Wave Layers</label>
                         <div class="col-sm-6 mb-3 mb-sm-0">
-                            <input type="number" class="form-control form-control-lg form-control-solid"
+                            <input id="graphics-number" type="number" class="form-control form-control-lg form-control-solid"
                                 value="2" />
                         </div>
                         <div class="col-sm-6 col-lg-3">
-                            <a class="btn btn-lg btn-primary px-lg-5" href="#">Generate</a>
+                            <a id="add-canvas-multiple" class="btn btn-lg btn-primary px-lg-5" href="#">Generate</a>
                         </div>
                     </div>
 
@@ -351,7 +395,8 @@
                     {{ $slot }}
 
                     <div>
-                        <a class="btn btn-lg btn-soft-dark px-lg-5" href="#"><i class="bi bi-plus-lg"></i> Add
+                        <a class="add-canvas btn btn-lg btn-soft-dark px-lg-5" href="#"><i
+                                class="bi bi-plus-lg"></i> Add
                             Wave Layer</a>
                     </div>
                 </div>
