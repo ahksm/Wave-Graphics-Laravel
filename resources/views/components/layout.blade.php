@@ -37,7 +37,7 @@
         #main-container {
             position: relative;
         }
-        
+
         .loader {
             position: absolute;
             width: 100%;
@@ -124,21 +124,24 @@
                                                         </div>
                                                         <div class="flex-grow-1 ms-3">
                                                             <h5 class="mb-0">
-                                                                Mark
-                                                                Williams
+                                                                {{ Auth::user()->name }}
                                                             </h5>
                                                             <p class="card-text text-muted">
-                                                                mark@site.com
+                                                                {{ Auth::user()->email }}
                                                             </p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">Profile &amp;
+                                                {{-- <a class="dropdown-item" href="#">Profile &amp;
                                                     account</a>
-                                                <a class="dropdown-item" href="#">Settings</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">Sign out</a>
+                                                <a class="dropdown-item" href="#">Settings</a> --}}
+                                                {{-- <div class="dropdown-divider"></div> --}}
+                                                <form action="/logout" method="POST">
+                                                    @csrf
+                                                    <button class="dropdown-item" type="submit" name="logout">Sign
+                                                        out</button>
+                                                </form>
                                             </div>
                                         </div>
                                         <!-- End Account -->
@@ -281,7 +284,7 @@
                                 <label class="form-control form-control-lg form-control-solid">
                                     <span class="form-check">
                                         <input type="radio" class="form-check-input" name="graphics-format"
-                                            checked />
+                                            value="png" checked />
                                         <span class="form-check-label">.png</span>
                                     </span>
                                 </label>
@@ -290,7 +293,8 @@
                                 <!-- Radio Check -->
                                 <label class="form-control form-control-lg form-control-solid">
                                     <span class="form-check">
-                                        <input type="radio" class="form-check-input" name="graphics-format" />
+                                        <input type="radio" class="form-check-input" name="graphics-format"
+                                            value="svg" />
                                         <span class="form-check-label">.svg</span>
                                     </span>
                                 </label>
@@ -382,11 +386,12 @@
                     <div class="row mb-4">
                         <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Number of Wave Layers</label>
                         <div class="col-sm-6 mb-3 mb-sm-0">
-                            <input id="graphics-number" type="number" class="form-control form-control-lg form-control-solid"
-                                value="2" />
+                            <input id="graphics-number" type="number"
+                                class="form-control form-control-lg form-control-solid" value="1" />
                         </div>
                         <div class="col-sm-6 col-lg-3">
-                            <a id="add-canvas-multiple" class="btn btn-lg btn-primary px-lg-5" href="#">Generate</a>
+                            <a id="add-canvas-multiple" class="btn btn-lg btn-primary px-lg-5"
+                                href="javascript:;">Generate</a>
                         </div>
                     </div>
 
@@ -395,7 +400,7 @@
                     {{ $slot }}
 
                     <div>
-                        <a class="add-canvas btn btn-lg btn-soft-dark px-lg-5" href="#"><i
+                        <a class="add-canvas btn btn-lg btn-soft-dark px-lg-5" href="javascript:;"><i
                                 class="bi bi-plus-lg"></i> Add
                             Wave Layer</a>
                     </div>
@@ -478,7 +483,7 @@
                 }
             });
     </script>
-    <script src="{{ asset('js/random.js') }}" defer></script>
+    <script src="{{ asset('js/index.js') }}" defer></script>
 </body>
 
 </html>

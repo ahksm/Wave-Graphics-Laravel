@@ -17,8 +17,7 @@ mix.js("resources/js/app.js", "public/js").postCss(
     [require("tailwindcss")]
 );
 
-mix.js("public/js/random.js", "public/js");
-// mix.js("public/js/regular.js", "public/js");
+mix.js("public/js/index.js", "public/js");
 
 mix.webpackConfig({
     module: {

@@ -1,4 +1,4 @@
-<x-layout :random="$random">
+<x-layout>
     <div id="main-container">
         <div class="loader"></div>
         <div id="layer-1" class="layer row mb-6">
@@ -19,10 +19,10 @@
                     <input id="wave-distortion-1" type="number" class="form-control form-control-solid" />
                 </div>
 
-                <a id="try-again" data-id="1" class="btn btn-soft-primary px-lg-5 d-block mb-2" href="#"><i
+                <a id="try-again" class="btn btn-soft-primary px-lg-5 d-block mb-2" href="javascript:;"><i
                         class="bi bi-arrow-repeat me-1"></i>
                     Reload</a>
-                <a id="download" data-id="1" class="btn btn-primary px-lg-5 d-block" href="#"><i
+                <a id="download" data-id="1" class="download btn btn-primary px-lg-5 d-block" href="javascript:;"><i
                         class="bi bi-box-arrow-down me-1"></i>
                     Download</a>
             </div>

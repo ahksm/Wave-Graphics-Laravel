@@ -1,66 +1,121 @@
 <x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-        </x-slot>
+    <div class="container d-lg-flex justify-content-lg-center align-items-center h-100">
+        <!-- Card -->
+        <div class="card card-lg border-0 w-lg-40">
+            <div class="card-body">
+                <!-- Form -->
+                <form method="POST" action="{{ route('register') }}">
+                    @csrf
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+                    <div class="text-center">
+                        <div class="mb-5">
+                            <h1>Register</h1>
+                            <p>
+                                Already Registered?
+                                <a class="link" href="login">Sign in here</a>
+                            </p>
+                        </div>
+                    </div>
 
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+                    <!-- Form -->
+                    <div class="mb-4">
+                        <label class="form-label fw-medium" for="signupSrName">Name</label>
+                        <input type="text" class="form-control form-control-lg form-control-solid" name="name"
+                            id="signupSrName" tabindex="1" placeholder="John Doe" aria-label="John Doe" required
+                            :value="old('name')" autofocus />
+                    </div>
+                    <!-- End Form -->
 
-            <!-- Name -->
-            <div>
-                <x-label for="name" :value="__('Name')" />
+                    <!-- Form -->
+                    <div class="mb-4">
+                        <label class="form-label fw-medium" for="signupSrEmail">Email</label>
+                        <input type="email" class="form-control form-control-lg form-control-solid" name="email"
+                            id="signupSrEmail" tabindex="2" placeholder="email@address.com"
+                            aria-label="email@address.com" required :value="old('email')" autofocus />
+                    </div>
+                    <!-- End Form -->
 
-                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
+                    <!-- Form -->
+                    <div class="mb-4">
+                        <label class="form-label fw-medium" for="signupSrEmail">Role</label>
+                        <select id="role" class="form-control form-control-lg form-control-solid" name="role"
+                            tabindex="3">
+                            <option value="user" selected>User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <!-- End Form -->
+
+                    <!-- Form -->
+                    <div class="mb-4">
+                        <label class="form-label fw-medium w-100" for="signupSrPassword" tabindex="4">
+                            <span class="d-flex justify-content-between align-items-center">
+                                <span>Password</span>
+                            </span>
+                        </label>
+
+                        <div class="input-group input-group-merge input-group-solid"
+                            data-hs-validation-validate-class="">
+                            <input type="password"
+                                class="js-toggle-password form-control form-control-lg form-control-solid"
+                                name="password" id="signupSrPassword" placeholder="8+ characters required"
+                                aria-label="8+ characters required" required="" minlength="8"
+                                data-hs-toggle-password-options='{
+                          "target": "#changePassTarget",
+                          "defaultClass": "bi-eye-slash",
+                          "showClass": "bi-eye",
+                          "classChangeTarget": "#changePassIcon"
+                        }' />
+                            <a id="changePassTarget" class="input-group-append input-group-text" href="javascript:;">
+                                <i id="changePassIcon" class="bi-eye-slash"></i>
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-medium w-100" for="password_confirmation" tabindex="5">
+                            <span class="d-flex justify-content-between align-items-center">
+                                <span>Confirm Password</span>
+                            </span>
+                        </label>
+
+                        <div class="input-group input-group-merge input-group-solid"
+                            data-hs-validation-validate-class="">
+                            <input type="password"
+                                class="js-toggle-password form-control form-control-lg form-control-solid"
+                                name="password_confirmation" id="password_confirmation"
+                                aria-label="8+ characters required" required="" minlength="8"
+                                data-hs-toggle-password-options='{
+                          "target": "#changePassTarget",
+                          "defaultClass": "bi-eye-slash",
+                          "showClass": "bi-eye",
+                          "classChangeTarget": "#changePassIcon"
+                        }' />
+                            <a id="changePassTarget" class="input-group-append input-group-text" href="javascript:;">
+                                <i id="changePassIcon" class="bi-eye-slash"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                    @if ($errors)
+                        <span class="invalid-feedback">
+                            <x-auth-validation-errors class="mb-4" :errors="$errors" />
+                        </span>
+                    @endif
+                    <!-- End Form -->
+
+                    <div class="d-grid">
+                        <button type="submit" name="submit" class="btn btn-primary btn-lg">
+                            Register
+                        </button>
+                    </div>
+                </form>
+                <!-- End Form -->
             </div>
-
-            <!-- Email Address -->
-            <div class="mt-4">
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
-            </div>
-
-            <!-- Role -->
-            <div class="mt-4">
-                <x-label for="role" :value="__('Role')" />
-
-                <select id="role" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="role">
-                    <option value="user" selected>User</option>
-                    <option value="admin">Admin</option>
-                </select>
-            </div>
-
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
-
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="new-password" />
-            </div>
-
-            <!-- Confirm Password -->
-            <div class="mt-4">
-                <x-label for="password_confirmation" :value="__('Confirm Password')" />
-
-                <x-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
-
-                <x-button class="ml-4">
-                    {{ __('Register') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
+        </div>
+        <!-- End Card -->
+    </div>
+    <!-- End Content -->
+    <!-- ========== END MAIN CONTENT ========== -->
 </x-guest-layout>

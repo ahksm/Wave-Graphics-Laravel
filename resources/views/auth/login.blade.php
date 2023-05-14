@@ -1,53 +1,113 @@
 <x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-        </x-slot>
+    <div class="container d-lg-flex justify-content-lg-between align-items-center h-100">
+        <!--begin::Aside-->
+        <div class="text-center text-lg-start py-7">
+            <a href="index.html">
+                <img class="img-fluid mb-3" src="../assets/i/oculusguard-light.svg" alt="OculusGuard Logo" />
+            </a>
 
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
+            <p class="text-white lead m-0">Some slogan should be here.</p>
+        </div>
+        <!--begin::Aside-->
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+        <!-- Card -->
+        <div class="card card-lg border-0 w-lg-40">
+            <div class="card-body">
+                <!-- Form -->
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+                    <div class="text-center">
+                        <div class="mb-5">
+                            <h1>Sign In</h1>
+                            {{-- <p>
+                                Don't have an account yet?
+                                <a class="link" href="#">Sign up here</a>
+                            </p> --}}
+                        </div>
 
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
+                        {{-- <div class="d-grid mb-4">
+                            <a class="btn btn-soft-primary btn-lg" href="javascript:;">
+                                <span class="d-flex justify-content-center align-items-center">
+                                    <img class="avatar avatar-xss me-2" src="../assets/i/google-icon.svg"
+                                        alt="Google Icon" />
+                                    Sign in with Google
+                                </span>
+                            </a>
+                        </div>
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+                        <span class="divider-center text-muted opacity-50 small mb-4">OR</span> --}}
+                    </div>
+
+                    <!-- Form -->
+                    <div class="mb-4">
+                        <label class="form-label fw-medium" for="signinSrEmail">Email</label>
+                        <input type="email" class="form-control form-control-lg form-control-solid" name="email"
+                            id="signinSrEmail" tabindex="1" placeholder="email@address.com"
+                            aria-label="email@address.com" required="" :value="old('email')" autofocus />
+                    </div>
+                    <!-- End Form -->
+
+                    <!-- Form -->
+                    <div class="mb-4">
+                        <label class="form-label fw-medium w-100" for="signupSrPassword" tabindex="0">
+                            <span class="d-flex justify-content-between align-items-center">
+                                <span>Password</span>
+
+                                @if (Route::has('password.request'))
+                                    <a class="form-label-link fw-normal mb-0" href="{{ route('password.request') }}">
+                                        {{ __('Forgot password?') }}
+                                    </a>
+                                @endif
+                            </span>
+                        </label>
+
+                        <div class="input-group input-group-merge input-group-solid"
+                            data-hs-validation-validate-class="">
+                            <input type="password"
+                                class="js-toggle-password form-control form-control-lg form-control-solid"
+                                name="password" id="signupSrPassword" placeholder="8+ characters required"
+                                aria-label="8+ characters required" required="" minlength="8"
+                                data-hs-toggle-password-options='{
+                          "target": "#changePassTarget",
+                          "defaultClass": "bi-eye-slash",
+                          "showClass": "bi-eye",
+                          "classChangeTarget": "#changePassIcon"
+                        }' />
+                            <a id="changePassTarget" class="input-group-append input-group-text" href="javascript:;">
+                                <i id="changePassIcon" class="bi-eye-slash"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                    @if ($errors)
+                        <span class="invalid-feedback">
+                            <x-auth-validation-errors class="mb-4" :errors="$errors" />
+                        </span>
+                    @endif
+                    <!-- End Form -->
+
+                    <!-- Form Check -->
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" value="" id="remember_me"
+                            name="remember" />
+                        <label class="form-check-label" for="remember_me">
+                            Remember me
+                        </label>
+                    </div>
+                    <!-- End Form Check -->
+
+                    <div class="d-grid">
+                        <button type="submit" name="submit" class="btn btn-primary btn-lg">
+                            Sign In
+                        </button>
+                    </div>
+                </form>
+                <!-- End Form -->
             </div>
-
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
-
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
-            </div>
-
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-
-                <x-button class="ml-3">
-                    {{ __('Log in') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
+        </div>
+        <!-- End Card -->
+    </div>
+    <!-- End Content -->
+    <!-- ========== END MAIN CONTENT ========== -->
 </x-guest-layout>
