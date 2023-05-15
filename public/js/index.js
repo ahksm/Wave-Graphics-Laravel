@@ -308,6 +308,15 @@ window.onload = function () {
         canvasCount++;
     }
 
+    function removeCanvases() {
+        const container = document.querySelector("#main-container");
+        while (container.children.length > 1) {
+            container.removeChild(container.lastChild);
+        }
+        document.getElementById("add-canvas-multiple").innerText = 'Regenerate';
+        canvasCount = 1;
+    }
+
     document.querySelector(".download-all").addEventListener("click", () => {
         let format = document.querySelector(
             'input[name="graphics-format"]:checked'
@@ -322,6 +331,7 @@ window.onload = function () {
         .getElementById("add-canvas-multiple")
         .addEventListener("click", () => {
             document.querySelector(".loader").style.display = "block";
+            removeCanvases();
             for (
                 let i = 0;
                 i < document.getElementById("graphics-number").value;
