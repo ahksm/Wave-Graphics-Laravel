@@ -313,7 +313,7 @@ window.onload = function () {
         while (container.children.length > 1) {
             container.removeChild(container.lastChild);
         }
-        document.getElementById("add-canvas-multiple").innerText = 'Regenerate';
+        document.getElementById("add-canvas-multiple").innerText = "Regenerate";
         canvasCount = 1;
     }
 
@@ -330,7 +330,7 @@ window.onload = function () {
     document
         .getElementById("add-canvas-multiple")
         .addEventListener("click", () => {
-            document.querySelector(".loader").style.display = "block";
+            document.querySelector(".loader").style.display = "flex";
             removeCanvases();
             for (
                 let i = 0;

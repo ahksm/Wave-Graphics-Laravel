@@ -42,25 +42,11 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            transform: translateX(-20px);
             z-index: 9999;
-            background-color: rgba(255, 255, 255, 0.5);
+            background-color: rgba(255, 255, 255);
             backdrop-filter: blur(5px);
             display: none;
-        }
-
-        .loader:before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border-top: 3px solid #333;
-            border-right: 3px solid transparent;
-            animation: spin 1s linear infinite;
+            justify-content: center;
         }
 
         @keyframes spin {
@@ -398,7 +384,12 @@
                     <hr class="my-lg-8 opacity-50 mx-lg-n5" />
 
                     <div id="main-container">
-                        <div class="loader"></div>
+                        <div class="loader">
+                            <lottie-player
+                                src="https://lottie.host/768f8cf2-89a5-4a92-8b84-e58afd06a18e/zQj2wPZheh.json"
+                                background="transparent" speed="1" style="width: 400px; height: 400px; object-fit: cover; z-index: -2;" loop
+                                autoplay></lottie-player>
+                        </div>
                     </div>
 
                     <div class="d-flex justify-content-between">
@@ -487,6 +478,9 @@
                 }
             });
     </script>
+
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
     <script src="{{ asset('js/index.js') }}" defer></script>
 </body>
 

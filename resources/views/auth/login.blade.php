@@ -2,7 +2,7 @@
     <div class="container d-lg-flex justify-content-lg-between align-items-center h-100">
         <!--begin::Aside-->
         <div class="text-center text-lg-start py-7">
-            <a href="index.html">
+            <a href="/login">
                 <img class="img-fluid mb-3" src="../assets/i/oculusguard-light.svg" alt="OculusGuard Logo" />
             </a>
 
