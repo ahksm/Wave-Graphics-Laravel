@@ -344,7 +344,10 @@ window.onload = function () {
             }, 2000);
         });
 
-    document.querySelector(".add-canvas").addEventListener("click", addCanvas);
+    document.querySelector(".add-canvas").addEventListener("click", () => {
+        addCanvas();
+        document.getElementById("add-canvas-multiple").innerText = "Regenerate";
+    });
 
     function selectElementsWithIdsTill(id) {
         let selectors = [];
