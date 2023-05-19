@@ -170,7 +170,12 @@ window.onload = function () {
         canvasContainer.setAttribute("id", `layer-${canvasCount}`);
         canvasContainer.innerHTML = `
             <div class="col-lg-3 mb-2 mb-lg-0">
-                <h2 class="mb-3">Wave Layer #${canvasCount}</h2>
+                <div class="d-flex align-items-center mb-3">
+                    <h2 class="mb-0">Wave Layer #${canvasCount}</h2>
+                    <a href="#" class="ms-3 text-muted text-hover-warning" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Save">
+                        <i class="bi bi-star"></i>
+                    </a>
+                </div>
                 <div class="mb-4">
                     <label class="form-label fw-medium">Wave Length</label>
                     <input id="wave-length-${canvasCount}" type="number" class="form-control form-control-solid" />
@@ -188,13 +193,14 @@ window.onload = function () {
 
                 <a id="try-again-${canvasCount}" data-id="${canvasCount}" class="btn btn-soft-primary px-lg-5 d-block mb-2" href="javascript:;"><i class="bi bi-arrow-repeat me-1"></i>
                     Reload</a>
-                <a id="download-${canvasCount}" data-id="${canvasCount}" class="download btn btn-primary px-lg-5 d-block" href="javascript:;"><i class="bi bi-box-arrow-down me-1"></i>
-                    Download</a>
             </div>
-            <div class="col-lg-9">
-                <div id="canvas-container" class="border border-dotted p-4 overflow-auto rounded">
+            <div class="col-lg-9 position-relative">
+                <div class="border border-dotted p-4 overflow-auto rounded">
                     <canvas class="myCanvas" id="myCanvas-${canvasCount}"></canvas>
                     <canvas class="newCanvas" id="newCanvas-${canvasCount}"></canvas>
+                </div>
+                <div class="position-absolute bottom-0 end-0 mb-3 me-5">
+                    <a id="download-${canvasCount}" data-id="${canvasCount}" class="download btn btn-primary btn-sm btn-icon" href="javascript:;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Download"><i class="bi bi-box-arrow-down"></i></a>
                 </div>
             </div>
         `;

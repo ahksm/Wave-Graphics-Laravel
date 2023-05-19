@@ -86,27 +86,39 @@
                                 <!-- Navbar -->
                                 <ul class="list-inline mb-0">
                                     <li class="list-inline-item">
+                                        <!-- Stared -->
+                                        <a href="#"
+                                            class="btn text-white text-hover-primary py-0 position-relative">
+                                            <i class="bi-star text-inherit" style="font-size: 1.25rem;"></i>
+                                            <small class="d-block fs-sm text-inherit">Saved</small>
+
+                                            <span
+                                                class="avatar avatar-xs avatar-primary avatar-circle avatar--status bg-transparent">
+                                                <span class="avatar-initials fw-normal">9+</span>
+                                            </span>
+                                        </a>
+                                        <!-- End Stared -->
+                                    </li>
+                                    <li class="list-inline-item">
                                         <!-- Account -->
                                         <div class="dropdown">
-                                            <a class="navbar-dropdown-account-wrapper" href="javascript:;"
+                                            <a class="btn text-white text-hover-primary py-0 pe-0" href="javascript:;"
                                                 id="accountNavbarDropdown" data-bs-toggle="dropdown"
                                                 aria-expanded="false" data-bs-auto-close="outside"
                                                 data-bs-dropdown-animation="">
-                                                <div class="avatar avatar-sm avatar-circle bg-transparent">
-                                                    <img class="avatar-img"
-                                                        src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1160&amp;q=80"
-                                                        alt="Image Description" />
-                                                </div>
+                                                <i class="bi-person-circle text-inherit"
+                                                    style="font-size: 1.25rem;"></i>
+                                                <small class="d-block fs-sm text-inherit">Account</small>
                                             </a>
 
                                             <div class="dropdown-menu dropdown-menu-end navbar-dropdown-menu navbar-dropdown-menu-borderless navbar-dropdown-account"
-                                                aria-labelledby="accountNavbarDropdown" style="width: 16rem">
+                                                aria-labelledby="accountNavbarDropdown" style="width: 16rem;">
                                                 <div class="dropdown-item-text">
                                                     <div class="d-flex align-items-center">
                                                         <div class="avatar avatar-circle bg-transparent">
                                                             <img class="avatar-img"
                                                                 src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1160&amp;q=80"
-                                                                alt="Image Description" />
+                                                                alt="Image Description">
                                                         </div>
                                                         <div class="flex-grow-1 ms-3">
                                                             <h5 class="mb-0">
@@ -173,7 +185,7 @@
                                         <span class="text-muted">(px)</span></label>
                                     <div class="input-group mb-3">
                                         <input id="canvas-width" min="10" step="10" type="number"
-                                            class="form-control form-control-lg form-control-solid" value="300" />
+                                            class="form-control form-control-lg form-control-solid" value="400" />
                                         <span class="input-group-text">px</span>
                                     </div>
                                 </div>
@@ -183,7 +195,7 @@
                                         <span class="text-muted">(px)</span></label>
                                     <div class="input-group mb-3">
                                         <input id="canvas-height" min="10" step="10" type="number"
-                                            class="form-control form-control-lg form-control-solid" value="300" />
+                                            class="form-control form-control-lg form-control-solid" value="400" />
                                         <span class="input-group-text">px</span>
                                     </div>
                                 </div>
@@ -387,8 +399,9 @@
                         <div class="loader">
                             <lottie-player
                                 src="https://lottie.host/768f8cf2-89a5-4a92-8b84-e58afd06a18e/zQj2wPZheh.json"
-                                background="transparent" speed="1" style="width: 400px; height: 400px; object-fit: cover; z-index: -2;" loop
-                                autoplay></lottie-player>
+                                background="transparent" speed="1"
+                                style="width: 400px; height: 400px; object-fit: cover; z-index: -2;" loop autoplay>
+                            </lottie-player>
                         </div>
                     </div>
 
