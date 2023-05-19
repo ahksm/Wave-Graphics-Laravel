@@ -319,7 +319,7 @@
                                 <label class="form-control form-control-lg form-control-solid">
                                     <span class="form-check">
                                         <input type="radio" class="form-check-input" name="input-types"
-                                            id="input-types--interval" />
+                                            {{ $interval ? 'checked' : '' }} id="input-types--interval" />
                                         <span class="form-check-label">Interval Values</span>
                                     </span>
                                 </label>
@@ -381,29 +381,44 @@
                         </div>
                     </div>
 
-                    <div class="row mb-4">
-                        <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Number of Wave Layers</label>
-                        <div class="col-sm-6 mb-3 mb-sm-0">
-                            <input id="graphics-number" type="number"
-                                class="form-control form-control-lg form-control-solid" value="1" />
+                    @if ($interval)
+                        <div class="row mb-4">
+                            <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Number of
+                                Graphics</label>
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input id="graphics-number" type="number"
+                                    class="form-control form-control-lg form-control-solid" value="1" />
+                            </div>
                         </div>
-                        <div class="col-sm-6 col-lg-3">
-                            <a id="add-canvas-multiple" class="btn btn-lg btn-primary px-lg-5"
-                                href="javascript:;">Generate</a>
+                        <div class="row mb-4">
+                            <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Number of
+                                Layers</label>
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input id="graphics-number" type="number"
+                                    class="form-control form-control-lg form-control-solid" value="1" />
+                            </div>
+                            <div class="col-sm-6 col-lg-3">
+                                <a id="add-canvas-multiple" class="btn btn-lg btn-primary px-lg-5"
+                                    href="javascript:;">Generate</a>
+                            </div>
                         </div>
-                    </div>
+                    @else
+                        <div class="row mb-4">
+                            <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Number of Graphics</label>
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input id="graphics-number" type="number"
+                                    class="form-control form-control-lg form-control-solid" value="1" />
+                            </div>
+                            <div class="col-sm-6 col-lg-3">
+                                <a id="add-canvas-multiple" class="btn btn-lg btn-primary px-lg-5"
+                                    href="javascript:;">Generate</a>
+                            </div>
+                        </div>
+                    @endif
 
                     <hr class="my-lg-8 opacity-50 mx-lg-n5" />
 
-                    <div id="main-container">
-                        <div class="loader">
-                            <lottie-player
-                                src="https://lottie.host/768f8cf2-89a5-4a92-8b84-e58afd06a18e/zQj2wPZheh.json"
-                                background="transparent" speed="1"
-                                style="width: 400px; height: 400px; object-fit: cover; z-index: -2;" loop autoplay>
-                            </lottie-player>
-                        </div>
-                    </div>
+                    {{ $slot }}
 
                     <div class="d-flex justify-content-between">
                         <a class="add-canvas btn btn-lg btn-soft-dark px-lg-5" href="javascript:;"><i
@@ -472,6 +487,10 @@
     </script>
 
     <script>
+        const graphicsIntervals = document.querySelector("#graphics-intervals");
+        graphicsIntervals.style.display = document.querySelector("#input-types--interval").checked ?
+            "block" : "none";
+
         document
             .querySelector("#input-types--interval")
             .addEventListener("click", function() {
@@ -479,6 +498,7 @@
                     document.querySelector(
                         "#graphics-intervals"
                     ).style.display = "block";
+                    window.location.href = "/interval";
                 }
             });
         document
@@ -488,13 +508,18 @@
                     document.querySelector(
                         "#graphics-intervals"
                     ).style.display = "none";
+                    window.location.href = "/";
                 }
             });
     </script>
 
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
-    <script src="{{ asset('js/index.js') }}" defer></script>
+    @if ($interval)
+        <script src="{{ asset('js/interval.js') }}" defer></script>
+    @else
+        <script src="{{ asset('js/exact.js') }}" defer></script>
+    @endif
 </body>
 
 </html>

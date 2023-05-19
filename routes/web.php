@@ -14,7 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('index');
+    return view('exact');
 })->middleware('auth')->name('home');
+
+Route::get('/interval', function () {
+    return view('interval');
+})->middleware('auth')->name('interval');
 
 require __DIR__ . '/auth.php';
