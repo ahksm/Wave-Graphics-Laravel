@@ -394,7 +394,7 @@
                             <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Number of
                                 Layers</label>
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input id="graphics-number" type="number"
+                                <input id="layers-number" type="number"
                                     class="form-control form-control-lg form-control-solid" value="1" />
                             </div>
                             <div class="col-sm-6 col-lg-3">
