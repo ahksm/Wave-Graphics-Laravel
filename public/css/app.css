@@ -1087,6 +1087,10 @@ select {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
 }
+.py-0 {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
 .py-1 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
@@ -1115,6 +1119,10 @@ select {
 }
 .pb-3 {
   padding-bottom: 0.75rem;
+}
+.pe-0 {
+  -webkit-padding-end: 0px;
+          padding-inline-end: 0px;
 }
 .pl-3 {
   padding-left: 0.75rem;
@@ -1226,6 +1234,9 @@ select {
 .text-indigo-700 {
   --tw-text-opacity: 1;
   color: rgb(67 56 202 / var(--tw-text-opacity));
+}
+.text-inherit {
+  color: inherit;
 }
 .text-red-600 {
   --tw-text-opacity: 1;

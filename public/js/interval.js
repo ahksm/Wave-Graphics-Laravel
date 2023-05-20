@@ -170,7 +170,7 @@ window.onload = function () {
         canvasContainer.innerHTML = `
             <div class="col-lg-3 mb-2 mb-lg-0">
                 <div class="d-flex align-items-center mb-3">
-                    <h2 class="mb-0">Wave Layer #${canvasCount}</h2>
+                    <h2 class="mb-0">Wave #${canvasCount}</h2>
                     <a href="#" class="ms-3 text-muted text-hover-warning" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Save">
                         <i class="bi bi-star"></i>
                     </a>

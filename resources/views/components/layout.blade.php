@@ -384,17 +384,17 @@
                     @if ($interval)
                         <div class="row mb-4">
                             <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Number of
-                                Graphics</label>
+                                Layers</label>
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input id="graphics-number" type="number"
+                                <input id="layers-number" type="number"
                                     class="form-control form-control-lg form-control-solid" value="1" />
                             </div>
                         </div>
                         <div class="row mb-4">
                             <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Number of
-                                Layers</label>
+                                Waves</label>
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input id="layers-number" type="number"
+                                <input id="graphics-number" type="number"
                                     class="form-control form-control-lg form-control-solid" value="1" />
                             </div>
                             <div class="col-sm-6 col-lg-3">
@@ -404,7 +404,7 @@
                         </div>
                     @else
                         <div class="row mb-4">
-                            <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Number of Graphics</label>
+                            <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Number of Waves</label>
                             <div class="col-sm-6 mb-3 mb-sm-0">
                                 <input id="graphics-number" type="number"
                                     class="form-control form-control-lg form-control-solid" value="1" />
