@@ -191,21 +191,21 @@ window.onload = function () {
                     <input id="wave-distortion-${canvasCount}" type="number" class="form-control form-control-solid" disabled />
                 </div>
 
-                <a id="try-again-${canvasCount}" data-id="${canvasCount}" class="btn btn-soft-primary px-lg-5 d-block mb-2" href="javascript:;"><i class="bi bi-arrow-repeat me-1"></i>
-                    Regenerate</a>
+                <div class="row gap-2 flex-nowrap">
+                    <a id="try-again-${canvasCount}" data-id="${canvasCount}" class="col-lg-5 btn btn-soft-primary mb-2" href="javascript:;"><i class="bi bi-arrow-repeat me-1"></i>
+                    Reload</a>
+                    <a id="download-${canvasCount}" data-id="${canvasCount}" class="download col-lg-5 btn btn-primary mb-2" href="javascript:;"><i class="bi bi-box-arrow-down"></i> Download</a>
+                </div>
             </div>
             <div class="col-lg-9 position-relative">
-                <div id="canvas-container-${canvasCount}" class="border border-dotted p-4 overflow-auto rounded position-relative" style="width: max-content; height: max-content;">
-                    <div class="position-absolute top-0 start-0 mt-3 ms-3">
-                        <small class="badge bg-primary text-white fw-medium text-uppercase text-ls">${
+                <div id="canvas-container-${canvasCount}" class="border border-dotted p-4 overflow-auto rounded position-relative" style="width: max-content; height: max-content; padding-top: 20px;">
+                    <div class="mb-2">
+                        <small class="position-absolute top-0 end-0 mt-4 me-4 badge bg-primary text-white fw-medium text-uppercase text-ls">${
                             document.getElementById("layers-number").value == 1
                                 ? "1 layer"
                                 : document.getElementById("layers-number")
                                       .value + " layers"
                         }</small>
-                    </div>
-                    <div class="position-absolute top-0 end-0 mt-3 me-3">
-                        <a id="download-${canvasCount}" data-id="${canvasCount}" class="download btn btn-primary btn-sm btn-icon" href="javascript:;"><i class="bi bi-box-arrow-down"></i></a>
                     </div>
                 </div>
             </div>
