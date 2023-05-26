@@ -15,6 +15,7 @@ window.onload = function () {
             this.newCanvas = document.getElementById(newCanvasId);
 
             this.canvasWidthInput = document.getElementById("canvas-width");
+            console.log(this.canvasWidthInput.value);
             this.canvasHeightInput = document.getElementById("canvas-height");
             this.canvas.width = this.canvasWidthInput.value;
             this.canvas.height = this.canvasHeightInput.value;
@@ -194,10 +195,18 @@ window.onload = function () {
                     Regenerate</a>
             </div>
             <div class="col-lg-9 position-relative">
-                <div id="canvas-container-${canvasCount}" class="border border-dotted p-4 overflow-auto rounded">
-                </div>
-                <div class="position-absolute bottom-0 end-0 mb-3 me-5">
-                    <a id="download-${canvasCount}" data-id="${canvasCount}" class="download btn btn-primary btn-sm btn-icon" href="javascript:;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Download"><i class="bi bi-box-arrow-down"></i></a>
+                <div id="canvas-container-${canvasCount}" class="border border-dotted p-4 overflow-auto rounded position-relative" style="width: max-content; height: max-content;">
+                    <div class="position-absolute top-0 start-0 mt-3 ms-3">
+                        <small class="badge bg-primary text-white fw-medium text-uppercase text-ls">${
+                            document.getElementById("layers-number").value == 1
+                                ? "1 layer"
+                                : document.getElementById("layers-number")
+                                      .value + " layers"
+                        }</small>
+                    </div>
+                    <div class="position-absolute top-0 end-0 mt-3 me-3">
+                        <a id="download-${canvasCount}" data-id="${canvasCount}" class="download btn btn-primary btn-sm btn-icon" href="javascript:;"><i class="bi bi-box-arrow-down"></i></a>
+                    </div>
                 </div>
             </div>
         `;
@@ -259,7 +268,7 @@ window.onload = function () {
             };
 
             waveDrawer.draw();
-            addInputListener(`canvas-width`, waveDrawer.draw);
+            addInputListener(`canvas-width`, () => waveDrawer.draw());
             addInputListener(`canvas-height`, (event) => {
                 document
                     .querySelectorAll(".newCanvas")
@@ -273,12 +282,18 @@ window.onload = function () {
                 );
                 waveDrawer.draw();
             });
-            addInputListener(`wave-length-${canvasCount}`, waveDrawer.draw);
-            addInputListener(`wave-height-${canvasCount}`, waveDrawer.draw);
-            addInputListener(`wave-distortion-${canvasCount}`, waveDrawer.draw);
-            addInputListener(`bg-color`, waveDrawer.draw);
-            addInputListener(`line-color`, waveDrawer.draw);
-            addInputListener(`line-width`, waveDrawer.draw);
+            addInputListener(`wave-length-${canvasCount}`, () =>
+                waveDrawer.draw()
+            );
+            addInputListener(`wave-height-${canvasCount}`, () =>
+                waveDrawer.draw()
+            );
+            addInputListener(`wave-distortion-${canvasCount}`, () =>
+                waveDrawer.draw()
+            );
+            addInputListener(`bg-color`, () => waveDrawer.draw());
+            addInputListener(`line-color`, () => waveDrawer.draw());
+            addInputListener(`line-width`, () => waveDrawer.draw());
 
             document
                 .getElementById(`try-again-${canvasCount}`)

@@ -195,12 +195,19 @@ window.onload = function () {
                     Reload</a>
             </div>
             <div class="col-lg-9 position-relative">
-                <div class="border border-dotted p-4 overflow-auto rounded">
+                <div class="border border-dotted p-4 overflow-auto rounded position-relative" style="width: max-content; height: max-content;">
                     <canvas class="myCanvas" id="myCanvas-${canvasCount}"></canvas>
                     <canvas class="newCanvas" id="newCanvas-${canvasCount}"></canvas>
-                </div>
-                <div class="position-absolute bottom-0 end-0 mb-3 me-5">
-                    <a id="download-${canvasCount}" data-id="${canvasCount}" class="download btn btn-primary btn-sm btn-icon" href="javascript:;" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Download"><i class="bi bi-box-arrow-down"></i></a>
+                    <div class="position-absolute top-0 start-0 mt-3 ms-3">
+                        <small class="badge bg-primary text-white fw-medium text-uppercase text-ls">${
+                            canvasCount == 1
+                                ? "1 layer"
+                                : canvasCount + " layers"
+                        }</small>
+                    </div>
+                    <div class="position-absolute top-0 end-0 mt-3 me-3">
+                        <a id="download-${canvasCount}" data-id="${canvasCount}" class="download btn btn-primary btn-sm btn-icon" href="javascript:;"><i class="bi bi-box-arrow-down"></i></a>
+                    </div>
                 </div>
             </div>
         `;

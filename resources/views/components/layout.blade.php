@@ -213,20 +213,24 @@
                     </div>
 
                     <div class="row mb-4">
-                        <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Line Color</label>
+                        <label class="col-lg-3 fw-medium mb-2 mb-lg-0">Colors</label>
                         <div class="col-lg-6">
-                            <input id="line-color" type="color"
-                                class="form-control form-control-lg form-control-solid w-100 form-control-color"
-                                value="#000000" title="Choose a Line Color" />
-                        </div>
-                    </div>
+                            <div class="row">
+                                <div class="col-lg-6 mb-4 mb-lg-0">
+                                    <label class="form-label text-muted">Line</label>
+                                    <input id="line-color" type="color"
+                                        class="form-control form-control-lg form-control-solid form-control-color w-100"
+                                        value="#000000" title="Choose a Line Color">
+                                </div>
 
-                    <div class="row mb-4">
-                        <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Background Color</label>
-                        <div class="col-lg-6">
-                            <input id="bg-color" type="color"
-                                class="form-control form-control-lg form-control-solid w-100 form-control-color"
-                                value="#ffffff" title="Choose a Background Color" />
+                                <div class="col-lg-6 mb-4 mb-lg-0">
+                                    <label class="form-label text-muted">Background</label>
+                                    <input id="bg-color" type="color"
+                                        class="form-control form-control-lg form-control-solid form-control-color w-100"
+                                        value="#ffffff" title="Choose a Background Color"
+                                        data-listener-added_cebdcd7f="true">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -424,7 +428,7 @@
                         <a class="add-canvas btn btn-lg btn-soft-dark px-lg-5" href="javascript:;"><i
                                 class="bi bi-plus-lg"></i> Add
                             Wave Layer</a>
-                        <a class="download-all btn btn-lg btn-soft-dark px-lg-5" href="javascript:;"><i
+                        <a class="download-all btn btn-lg btn-white" href="javascript:;"><i
                                 class="bi bi-box-arrow-down me-1"></i>Download All</a>
                     </div>
                 </div>
