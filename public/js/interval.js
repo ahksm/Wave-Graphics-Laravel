@@ -199,7 +199,7 @@ window.onload = function () {
             </div>
             <div class="col-lg-9 position-relative">
                 <div id="canvas-container-${canvasCount}" class="border border-dotted p-4 overflow-auto rounded position-relative" style="width: max-content; height: max-content; padding-top: 20px;">
-                    <div class="mb-2">
+                    <div class="mb-5">
                         <small class="position-absolute top-0 end-0 mt-4 me-4 badge bg-primary text-white fw-medium text-uppercase text-ls">${
                             document.getElementById("layers-number").value == 1
                                 ? "1 layer"
