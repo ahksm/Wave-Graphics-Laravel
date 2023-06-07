@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\FavouriteController;
+use App\Models\Favourite;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,11 +16,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('exact');
+    return view('exact', ['canvases' => Favourite::all()]);
 })->middleware('auth')->name('home');
 
 Route::get('/interval', function () {
-    return view('interval');
+    return view('interval', ['canvases' => Favourite::all()]);
 })->middleware('auth')->name('interval');
+
+Route::post('/favourite', [FavouriteController::class, 'store']);
+Route::get('/favourites', [FavouriteController::class, 'index']);
 
 require __DIR__ . '/auth.php';

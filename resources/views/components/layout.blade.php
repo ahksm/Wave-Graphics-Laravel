@@ -1,3 +1,7 @@
+@php
+    use App\Models\Favourite;
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,6 +9,8 @@
     <!-- Required Meta Tags Always Come First -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Title -->
     <title>Generate Graphic Set | OculusGuard</title>
@@ -87,14 +93,16 @@
                                 <ul class="list-inline mb-0">
                                     <li class="list-inline-item">
                                         <!-- Stared -->
-                                        <a href="#"
+                                        <a href="/favourites"
                                             class="btn text-white text-hover-primary py-0 position-relative">
                                             <i class="bi-star text-inherit" style="font-size: 1.25rem;"></i>
                                             <small class="d-block fs-sm text-inherit">Saved</small>
 
                                             <span
                                                 class="avatar avatar-xs avatar-primary avatar-circle avatar--status bg-transparent">
-                                                <span class="avatar-initials fw-normal">9+</span>
+                                                <span class="avatar-initials fw-normal">
+                                                    {{ Favourite::count() > 9 ? '9+' : Favourite::count() }}
+                                                </span>
                                             </span>
                                         </a>
                                         <!-- End Stared -->
@@ -167,74 +175,77 @@
             <!-- Card -->
             <div class="card overflow-hidden border-0 mb-3 mb-lg-5">
                 <div class="card-body p-4 p-lg-10">
-                    <div class="row mb-4">
-                        <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Graphic Set Name</label>
-                        <div class="col-lg-6">
-                            <input id="canvas-name" type="text"
-                                class="form-control form-control-lg form-control-solid"
-                                placeholder="Enter a Graphic Set Name" />
+                    @if (!isset($favourites))
+                        <div class="row mb-4">
+                            <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Graphic Set Name</label>
+                            <div class="col-lg-6">
+                                <input id="canvas-name" type="text"
+                                    class="form-control form-control-lg form-control-solid"
+                                    placeholder="Enter a Graphic Set Name" />
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row mb-4">
-                        <label class="col-lg-3 fw-medium mb-2 mb-lg-0">Size</label>
-                        <div class="col-lg-6">
-                            <div class="row">
-                                <div class="col-lg-6 mb-4 mb-lg-0">
-                                    <label class="form-label text-muted">Width
-                                        <span class="text-muted">(px)</span></label>
-                                    <div class="input-group mb-3">
-                                        <input id="canvas-width" min="10" step="10" type="number"
-                                            class="form-control form-control-lg form-control-solid" value="400" />
-                                        <span class="input-group-text">px</span>
+                        <div class="row mb-4">
+                            <label class="col-lg-3 fw-medium mb-2 mb-lg-0">Size</label>
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-6 mb-4 mb-lg-0">
+                                        <label class="form-label text-muted">Width
+                                            <span class="text-muted">(px)</span></label>
+                                        <div class="input-group mb-3">
+                                            <input id="canvas-width" min="10" step="10" type="number"
+                                                class="form-control form-control-lg form-control-solid"
+                                                value="400" />
+                                            <span class="input-group-text">px</span>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col-lg-6 mb-4 mb-lg-0">
-                                    <label class="form-label text-muted">Height
-                                        <span class="text-muted">(px)</span></label>
-                                    <div class="input-group mb-3">
-                                        <input id="canvas-height" min="10" step="10" type="number"
-                                            class="form-control form-control-lg form-control-solid" value="400" />
-                                        <span class="input-group-text">px</span>
+                                    <div class="col-lg-6 mb-4 mb-lg-0">
+                                        <label class="form-label text-muted">Height
+                                            <span class="text-muted">(px)</span></label>
+                                        <div class="input-group mb-3">
+                                            <input id="canvas-height" min="10" step="10" type="number"
+                                                class="form-control form-control-lg form-control-solid"
+                                                value="400" />
+                                            <span class="input-group-text">px</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row mb-4">
-                        <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Line Thickness</label>
-                        <div class="col-lg-6">
-                            <input id="line-width" type="number"
-                                class="form-control form-control-lg form-control-solid" min="1"
-                                value="1" />
+                        <div class="row mb-4">
+                            <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Line Thickness</label>
+                            <div class="col-lg-6">
+                                <input id="line-width" type="number"
+                                    class="form-control form-control-lg form-control-solid" min="1"
+                                    value="1" />
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row mb-4">
-                        <label class="col-lg-3 fw-medium mb-2 mb-lg-0">Colors</label>
-                        <div class="col-lg-6">
-                            <div class="row">
-                                <div class="col-lg-6 mb-4 mb-lg-0">
-                                    <label class="form-label text-muted">Line</label>
-                                    <input id="line-color" type="color"
-                                        class="form-control form-control-lg form-control-solid form-control-color w-100"
-                                        value="#000000" title="Choose a Line Color">
-                                </div>
+                        <div class="row mb-4">
+                            <label class="col-lg-3 fw-medium mb-2 mb-lg-0">Colors</label>
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-6 mb-4 mb-lg-0">
+                                        <label class="form-label text-muted">Line</label>
+                                        <input id="line-color" type="color"
+                                            class="form-control form-control-lg form-control-solid form-control-color w-100"
+                                            value="#000000" title="Choose a Line Color">
+                                    </div>
 
-                                <div class="col-lg-6 mb-4 mb-lg-0">
-                                    <label class="form-label text-muted">Background</label>
-                                    <input id="bg-color" type="color"
-                                        class="form-control form-control-lg form-control-solid form-control-color w-100"
-                                        value="#ffffff" title="Choose a Background Color"
-                                        data-listener-added_cebdcd7f="true">
+                                    <div class="col-lg-6 mb-4 mb-lg-0">
+                                        <label class="form-label text-muted">Background</label>
+                                        <input id="bg-color" type="color"
+                                            class="form-control form-control-lg form-control-solid form-control-color w-100"
+                                            value="#ffffff" title="Choose a Background Color"
+                                            data-listener-added_cebdcd7f="true">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    {{-- <div class="row mb-4">
+                        {{-- <div class="row mb-4">
                         <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Type</label>
                         <div class="col-lg-6">
                             <!-- Select -->
@@ -278,159 +289,163 @@
                         </div>
                     </div> --}}
 
-                    <div class="row mb-4">
-                        <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Format</label>
-                        <div class="col-lg-6">
-                            <div class="input-group">
-                                <!-- Radio Check -->
-                                <label class="form-control form-control-lg form-control-solid">
-                                    <span class="form-check">
-                                        <input type="radio" class="form-check-input" name="graphics-format"
-                                            value="png" checked />
-                                        <span class="form-check-label">.png</span>
-                                    </span>
-                                </label>
-                                <!-- End Radio Check -->
-
-                                <!-- Radio Check -->
-                                <label class="form-control form-control-lg form-control-solid">
-                                    <span class="form-check">
-                                        <input type="radio" class="form-check-input" name="graphics-format"
-                                            value="svg" />
-                                        <span class="form-check-label">.svg</span>
-                                    </span>
-                                </label>
-                                <!-- End Radio Check -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mb-4">
-                        <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Input Type</label>
-                        <div class="col-lg-6">
-                            <div class="input-group">
-                                <!-- Radio Check -->
-                                <label class="form-control form-control-lg form-control-solid">
-                                    <span class="form-check">
-                                        <input type="radio" class="form-check-input" name="input-types"
-                                            checked="" id="input-types--exact" />
-                                        <span class="form-check-label">Exact Values</span>
-                                    </span>
-                                </label>
-                                <!-- End Radio Check -->
-
-                                <!-- Radio Check -->
-                                <label class="form-control form-control-lg form-control-solid">
-                                    <span class="form-check">
-                                        <input type="radio" class="form-check-input" name="input-types"
-                                            {{ $interval ? 'checked' : '' }} id="input-types--interval" />
-                                        <span class="form-check-label">Interval Values</span>
-                                    </span>
-                                </label>
-                                <!-- End Radio Check -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="graphics-intervals" style="display: none">
                         <div class="row mb-4">
-                            <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Wave Length</label>
+                            <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Format</label>
                             <div class="col-lg-6">
-                                <div class="input-group d-flex align-items-center justify-content-between">
-                                    <div class="w-45">
-                                        <input id="wave-length-min" type="number"
-                                            class="form-control form-control-solid" value="1" />
-                                    </div>
-                                    <div>–</div>
-                                    <div class="w-45">
-                                        <input id="wave-length-max" type="number"
-                                            class="form-control form-control-solid" value="100" />
-                                    </div>
+                                <div class="input-group">
+                                    <!-- Radio Check -->
+                                    <label class="form-control form-control-lg form-control-solid">
+                                        <span class="form-check">
+                                            <input type="radio" class="form-check-input" name="graphics-format"
+                                                value="png" checked />
+                                            <span class="form-check-label">.png</span>
+                                        </span>
+                                    </label>
+                                    <!-- End Radio Check -->
+
+                                    <!-- Radio Check -->
+                                    <label class="form-control form-control-lg form-control-solid">
+                                        <span class="form-check">
+                                            <input type="radio" class="form-check-input" name="graphics-format"
+                                                value="svg" />
+                                            <span class="form-check-label">.svg</span>
+                                        </span>
+                                    </label>
+                                    <!-- End Radio Check -->
                                 </div>
                             </div>
                         </div>
 
                         <div class="row mb-4">
-                            <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Wave Height</label>
+                            <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Input Type</label>
                             <div class="col-lg-6">
-                                <div class="input-group d-flex align-items-center justify-content-between">
-                                    <div class="w-45">
-                                        <input id="wave-height-min" type="number"
-                                            class="form-control form-control-solid" value="1" />
+                                <div class="input-group">
+                                    <!-- Radio Check -->
+                                    <label class="form-control form-control-lg form-control-solid">
+                                        <span class="form-check">
+                                            <input type="radio" class="form-check-input" name="input-types"
+                                                checked="" id="input-types--exact" />
+                                            <span class="form-check-label">Exact Values</span>
+                                        </span>
+                                    </label>
+                                    <!-- End Radio Check -->
+
+                                    <!-- Radio Check -->
+                                    <label class="form-control form-control-lg form-control-solid">
+                                        <span class="form-check">
+                                            <input type="radio" class="form-check-input" name="input-types"
+                                                {{ $interval ? 'checked' : '' }} id="input-types--interval" />
+                                            <span class="form-check-label">Interval Values</span>
+                                        </span>
+                                    </label>
+                                    <!-- End Radio Check -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="graphics-intervals" style="display: none">
+                            <div class="row mb-4">
+                                <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Wave Length</label>
+                                <div class="col-lg-6">
+                                    <div class="input-group d-flex align-items-center justify-content-between">
+                                        <div class="w-45">
+                                            <input id="wave-length-min" type="number"
+                                                class="form-control form-control-solid" value="1" />
+                                        </div>
+                                        <div>–</div>
+                                        <div class="w-45">
+                                            <input id="wave-length-max" type="number"
+                                                class="form-control form-control-solid" value="100" />
+                                        </div>
                                     </div>
-                                    <div>–</div>
-                                    <div class="w-45">
-                                        <input id="wave-height-max" type="number"
-                                            class="form-control form-control-solid" value="100" />
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Wave Height</label>
+                                <div class="col-lg-6">
+                                    <div class="input-group d-flex align-items-center justify-content-between">
+                                        <div class="w-45">
+                                            <input id="wave-height-min" type="number"
+                                                class="form-control form-control-solid" value="1" />
+                                        </div>
+                                        <div>–</div>
+                                        <div class="w-45">
+                                            <input id="wave-height-max" type="number"
+                                                class="form-control form-control-solid" value="100" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Wave Distortion</label>
+                                <div class="col-lg-6">
+                                    <div class="input-group d-flex align-items-center justify-content-between">
+                                        <div class="w-45">
+                                            <input id="wave-distortion-min" type="number"
+                                                class="form-control form-control-solid" value="1" />
+                                        </div>
+                                        <div>–</div>
+                                        <div class="w-45">
+                                            <input id="wave-distortion-max" type="number"
+                                                class="form-control form-control-solid" value="100" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row mb-4">
-                            <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Wave Distortion</label>
-                            <div class="col-lg-6">
-                                <div class="input-group d-flex align-items-center justify-content-between">
-                                    <div class="w-45">
-                                        <input id="wave-distortion-min" type="number"
-                                            class="form-control form-control-solid" value="1" />
-                                    </div>
-                                    <div>–</div>
-                                    <div class="w-45">
-                                        <input id="wave-distortion-max" type="number"
-                                            class="form-control form-control-solid" value="100" />
-                                    </div>
+                        @if ($interval)
+                            <div class="row mb-4">
+                                <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Number of
+                                    Layers</label>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input id="layers-number" type="number"
+                                        class="form-control form-control-lg form-control-solid" value="1" />
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                            <div class="row mb-4">
+                                <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Number of
+                                    Waves</label>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input id="graphics-number" type="number"
+                                        class="form-control form-control-lg form-control-solid" value="1" />
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <a id="add-canvas-multiple" class="btn btn-lg btn-primary px-lg-5"
+                                        href="javascript:;">Generate</a>
+                                </div>
+                            </div>
+                        @else
+                            <div class="row mb-4">
+                                <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Number of Waves</label>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input id="graphics-number" type="number"
+                                        class="form-control form-control-lg form-control-solid" value="1" />
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <a id="add-canvas-multiple" class="btn btn-lg btn-primary px-lg-5"
+                                        href="javascript:;">Generate</a>
+                                </div>
+                            </div>
+                        @endif
 
-                    @if ($interval)
-                        <div class="row mb-4">
-                            <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Number of
-                                Layers</label>
-                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input id="layers-number" type="number"
-                                    class="form-control form-control-lg form-control-solid" value="1" />
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Number of
-                                Waves</label>
-                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input id="graphics-number" type="number"
-                                    class="form-control form-control-lg form-control-solid" value="1" />
-                            </div>
-                            <div class="col-sm-6 col-lg-3">
-                                <a id="add-canvas-multiple" class="btn btn-lg btn-primary px-lg-5"
-                                    href="javascript:;">Generate</a>
-                            </div>
+                        <hr class="my-lg-8 opacity-50 mx-lg-n5" />
+
+                        {{ $slot }}
+
+                        <div class="d-flex justify-content-between">
+                            <a class="add-canvas btn btn-lg btn-soft-dark px-lg-5" href="javascript:;"><i
+                                    class="bi bi-plus-lg"></i> Add
+                                Wave Layer</a>
+                            <a class="download-all btn btn-lg btn-white" href="javascript:;"><i
+                                    class="bi bi-box-arrow-down me-1"></i>Download All</a>
                         </div>
                     @else
-                        <div class="row mb-4">
-                            <label class="col-lg-3 col-form-label fw-medium mb-2 mb-lg-0">Number of Waves</label>
-                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input id="graphics-number" type="number"
-                                    class="form-control form-control-lg form-control-solid" value="1" />
-                            </div>
-                            <div class="col-sm-6 col-lg-3">
-                                <a id="add-canvas-multiple" class="btn btn-lg btn-primary px-lg-5"
-                                    href="javascript:;">Generate</a>
-                            </div>
-                        </div>
+                        {{ $slot }}
                     @endif
 
-                    <hr class="my-lg-8 opacity-50 mx-lg-n5" />
-
-                    {{ $slot }}
-
-                    <div class="d-flex justify-content-between">
-                        <a class="add-canvas btn btn-lg btn-soft-dark px-lg-5" href="javascript:;"><i
-                                class="bi bi-plus-lg"></i> Add
-                            Wave Layer</a>
-                        <a class="download-all btn btn-lg btn-white" href="javascript:;"><i
-                                class="bi bi-box-arrow-down me-1"></i>Download All</a>
-                    </div>
                 </div>
             </div>
             <!-- End Card -->
@@ -490,31 +505,24 @@
         })();
     </script>
 
-    <script>
-        const graphicsIntervals = document.querySelector("#graphics-intervals");
-        graphicsIntervals.style.display = document.querySelector("#input-types--interval").checked ?
-            "block" : "none";
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-        document
-            .querySelector("#input-types--interval")
-            .addEventListener("click", function() {
-                if (this.checked) {
-                    document.querySelector(
-                        "#graphics-intervals"
-                    ).style.display = "block";
-                    window.location.href = "/interval";
-                }
-            });
-        document
-            .querySelector("#input-types--exact")
-            .addEventListener("click", function() {
-                if (this.checked) {
-                    document.querySelector(
-                        "#graphics-intervals"
-                    ).style.display = "none";
-                    window.location.href = "/";
-                }
-            });
+    <script>
+        $("#graphics-intervals").css("display", $("#input-types--interval").is(":checked") ? "block" : "none");
+
+        $("#input-types--interval").on("click", function() {
+            if ($(this).is(":checked")) {
+                $("#graphics-intervals").css("display", "block");
+                window.location.href = "/interval";
+            }
+        });
+
+        $("#input-types--exact").on("click", function() {
+            if ($(this).is(":checked")) {
+                $("#graphics-intervals").css("display", "none");
+                window.location.href = "/";
+            }
+        });
     </script>
 
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>

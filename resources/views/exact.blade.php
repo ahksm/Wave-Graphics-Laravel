@@ -6,5 +6,10 @@
                 style="width: 400px; height: 400px; object-fit: cover; z-index: -2;" loop autoplay>
             </lottie-player>
         </div>
+        <div id="params" class="d-none">
+            @foreach ($canvases as $canvas)
+                {{ $canvas->params }}
+            @endforeach
+        </div>
     </div>
 </x-layout>

@@ -15,7 +15,6 @@ window.onload = function () {
             this.newCanvas = document.getElementById(newCanvasId);
 
             this.canvasWidthInput = document.getElementById("canvas-width");
-            console.log(this.canvasWidthInput.value);
             this.canvasHeightInput = document.getElementById("canvas-height");
             this.canvas.width = this.canvasWidthInput.value;
             this.canvas.height = this.canvasHeightInput.value;
@@ -128,37 +127,61 @@ window.onload = function () {
             }
 
             this.ctx.restore();
+
+            let newCanvasId = this.newCanvas.id.match(/\d+/g);
+
+            initializeCanvas(newCanvasId);
+
+            this.addDataProperties();
+        }
+
+        addDataProperties() {
+            const canvasWidth = document.getElementById("canvas-width").value;
+            const canvasHeight = document.getElementById("canvas-height").value;
+            const lineWidth = document.getElementById("line-width").value;
+            const lineColor = document.getElementById("line-color").value;
+            const bgColor = document.getElementById("bg-color").value;
+
+            this.canvas.dataset.id = this.newCanvas.id.match(/\d+/g);
+            this.canvas.dataset.width = canvasWidth;
+            this.canvas.dataset.height = canvasHeight;
+            this.canvas.dataset.lineWidth = lineWidth;
+            this.canvas.dataset.lineColor = lineColor;
+            this.canvas.dataset.bgColor = bgColor;
+            this.canvas.dataset.waveLength = document.getElementById(
+                this.waveLengthInputId
+            ).value;
+            this.canvas.dataset.waveHeight = document.getElementById(
+                this.waveHeightInputId
+            ).value;
+            this.canvas.dataset.waveDistortion = document.getElementById(
+                this.waveDistortionInputId
+            ).value;
+
+            const params = $("#params").html().trim();
+            const $fav = $(
+                `.favourite[data-id="${this.newCanvas.id.match(/\d+/g)}"]`
+            ).children();
+            if (params) {
+                let array = params
+                    .split(/\r?\n/)
+                    .map((line) => JSON.parse(line.trim()))
+                    .flat();
+
+                const matchFound = array.some((object) =>
+                    Object.entries(object).every(
+                        ([key, value]) =>
+                            key === "id" || this.canvas.dataset[key] === value
+                    )
+                );
+
+                if (matchFound) {
+                    $fav.removeClass("bi-star");
+                    $fav.addClass("bi-star-fill text-primary");
+                }
+            }
         }
     }
-
-    const canvasWidthInput = document.getElementById("canvas-width");
-    canvasWidthInput.addEventListener("input", () => {
-        waveDrawer.draw();
-    });
-
-    const canvasHeightInput = document.getElementById("canvas-height");
-    canvasHeightInput.addEventListener("input", (event) => {
-        document.querySelectorAll(".newCanvas").forEach((element) => {
-            element.style.height = event.target.value + "px";
-        });
-        canvasHeightInput.setAttribute("value", canvasHeightInput.value);
-        waveDrawer.draw();
-    });
-
-    const bgColorInput = document.getElementById("bg-color");
-    bgColorInput.addEventListener("input", () => {
-        waveDrawer.draw();
-    });
-
-    const lineColorInput = document.getElementById("line-color");
-    lineColorInput.addEventListener("input", () => {
-        waveDrawer.draw();
-    });
-
-    const lineWidthInput = document.getElementById("line-width");
-    lineWidthInput.addEventListener("input", () => {
-        waveDrawer.draw();
-    });
 
     let canvasCount = 1;
 
@@ -172,9 +195,13 @@ window.onload = function () {
             <div class="col-lg-3 mb-2 mb-lg-0">
                 <div class="d-flex align-items-center mb-3">
                     <h2 class="mb-0">Wave #${canvasCount}</h2>
-                    <a href="#" class="ms-3 text-muted text-hover-warning" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Save">
-                        <i class="bi bi-star"></i>
-                    </a>
+                    <form id="save-canvas-form" method="POST" action="javascript:;" enctype="multipart/form-data">
+                        <input type="file" id="fileInput-${canvasCount}" name="canvas_path" style="display: none;">
+                        <button type="submit" style="outline: none; border: none; background-color: inherit;" data-id="${canvasCount}" class="ms-3 text-muted text-hover-warning favourite" data-bs-toggle="tooltip" data-bs-placement="top"
+                        data-bs-title="Save">
+                            <i class="bi bi-star"></i>
+                        </button>
+                    </form>
                 </div>
                 <div class="mb-4">
                     <label class="form-label fw-medium">Wave Length</label>
@@ -191,7 +218,7 @@ window.onload = function () {
                     <input id="wave-distortion-${canvasCount}" type="number" class="form-control form-control-solid" disabled />
                 </div>
 
-                <div class="row gap-2 flex-nowrap">
+                <div class="row gap-2 flex-lg-nowrap">
                     <a id="try-again-${canvasCount}" data-id="${canvasCount}" class="col-lg-5 btn btn-soft-primary mb-2" href="javascript:;"><i class="bi bi-arrow-repeat me-1"></i>
                     Reload</a>
                     <a id="download-${canvasCount}" data-id="${canvasCount}" class="download col-lg-5 btn btn-primary mb-2" href="javascript:;"><i class="bi bi-box-arrow-down"></i> Download</a>
@@ -200,12 +227,11 @@ window.onload = function () {
             <div class="col-lg-9 position-relative">
                 <div id="canvas-container-${canvasCount}" class="border border-dotted p-4 overflow-auto rounded position-relative" style="width: max-content; height: max-content; padding-top: 20px;">
                     <div class="mb-5">
-                        <small class="position-absolute top-0 end-0 mt-4 me-4 badge bg-primary text-white fw-medium text-uppercase text-ls">${
-                            document.getElementById("layers-number").value == 1
-                                ? "1 layer"
-                                : document.getElementById("layers-number")
-                                      .value + " layers"
-                        }</small>
+                        <small id="badge-${canvasCount}" class="position-absolute top-0 end-0 mt-4 me-4 badge bg-primary text-white fw-medium text-uppercase text-ls">${
+            document.getElementById("layers-number").value == 1
+                ? "1 layer"
+                : document.getElementById("layers-number").value + " layers"
+        }</small>
                     </div>
                 </div>
             </div>
@@ -329,6 +355,15 @@ window.onload = function () {
 
         initializeCanvas(canvasCount);
 
+        $(`.favourite[data-id="${canvasCount}"]`).on("click", function () {
+            $(this).attr(
+                "data-bs-title",
+                $(this).hasClass("bi-star") ? "Save" : "Unsave"
+            );
+            $(this).children().toggleClass("bi-star bi-star-fill text-primary");
+            uploadImageToInput(canvasCount - 1);
+        });
+
         canvasCount++;
     }
 
@@ -438,4 +473,75 @@ window.onload = function () {
         let canvasHeightInput = document.getElementById("canvas-height").value;
         element.style.height = canvasHeightInput + "px";
     });
+
+    function uploadImageToInput(canvasId) {
+        const canvas = document.getElementById(`newCanvas-${canvasId}`);
+        const image = new Image();
+        image.src = canvas.toDataURL("image/png");
+        const fileInput = document.getElementById(`fileInput-${canvasId}`);
+        const dataTransfer = new DataTransfer();
+        const file = dataURLtoFile(image.src, `${name.value}.png`);
+        dataTransfer.items.add(file);
+        fileInput.files = dataTransfer.files;
+
+        const formData = new FormData(fileInput.form);
+        formData.append("_token", $('meta[name="csrf-token"]')[0].content);
+        formData.append("params", createCanvasJson(canvasId));
+        formData.append("canvas_path", fileInput.files[0]);
+        formData.append(
+            "layers",
+            document
+                .querySelector(`#badge-${canvasId}`)
+                .textContent.replace(/\D/g, "")
+        );
+
+        $.ajax({
+            url: "/favourite",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                $(".avatar-initials").html(response);
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            },
+        });
+
+        return false;
+    }
+
+    function dataURLtoFile(dataUrl, fileName) {
+        const arr = dataUrl.split(",");
+        const mime = arr[0].match(/:(.*?);/)[1];
+        const bstr = atob(arr[1]);
+        const n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        for (let i = 0; i < n; i++) {
+            u8arr[i] = bstr.charCodeAt(i);
+        }
+        return new File([u8arr], fileName, { type: mime });
+    }
+
+    function createCanvasJson(dataId) {
+        const canvasDataContainer = [];
+
+        const canvases = document.querySelectorAll(
+            `canvas[data-id="${dataId}"]`
+        );
+
+        canvases.forEach((canvas, index) => {
+            const canvasData = {};
+            const dataset = canvas.dataset;
+
+            Object.keys(dataset).forEach((key) => {
+                canvasData[key] = dataset[key];
+            });
+
+            canvasDataContainer.push(canvasData);
+        });
+
+        return JSON.stringify(canvasDataContainer);
+    }
 };
