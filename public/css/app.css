@@ -718,11 +718,20 @@ select {
 .relative {
   position: relative;
 }
+.bottom-0 {
+  bottom: 0px;
+}
+.end-0 {
+  inset-inline-end: 0px;
+}
 .left-0 {
   left: 0px;
 }
 .right-0 {
   right: 0px;
+}
+.start-0 {
+  inset-inline-start: 0px;
 }
 .top-0 {
   top: 0px;
@@ -781,6 +790,10 @@ select {
 .me-2 {
   -webkit-margin-end: 0.5rem;
           margin-inline-end: 0.5rem;
+}
+.me-3 {
+  -webkit-margin-end: 0.75rem;
+          margin-inline-end: 0.75rem;
 }
 .me-auto {
   -webkit-margin-end: auto;

@@ -46,7 +46,8 @@
 
         .loader {
             position: absolute;
-            width: 100%;
+            transform: translateX(-15px);
+            width: 120%;
             height: 100%;
             z-index: 9999;
             background-color: rgba(255, 255, 255);
@@ -512,14 +513,14 @@
 
         $("#input-types--interval").on("click", function() {
             if ($(this).is(":checked")) {
-                $("#graphics-intervals").css("display", "block");
+                // $("#graphics-intervals").css("display", "block");
                 window.location.href = "/interval";
             }
         });
 
         $("#input-types--exact").on("click", function() {
             if ($(this).is(":checked")) {
-                $("#graphics-intervals").css("display", "none");
+                // $("#graphics-intervals").css("display", "none");
                 window.location.href = "/";
             }
         });

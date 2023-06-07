@@ -361,7 +361,7 @@ window.onload = function () {
                 $(this).hasClass("bi-star") ? "Save" : "Unsave"
             );
             $(this).children().toggleClass("bi-star bi-star-fill text-primary");
-            uploadImageToInput(canvasCount - 1);
+            uploadImageToInput($(this).attr("data-id"));
         });
 
         canvasCount++;
